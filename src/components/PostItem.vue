@@ -16,7 +16,7 @@
     <h3 class="post-title">
       <a :href="post.url" rel="noopener">{{ post.title }}</a>
     </h3>
-    <p class="post-content">{{ post.content }}</p>
+    <p class="post-content">{{ post.content }}..</p>
     <div class="post-info-hubs">
       <span class="info-hubs-content">{{ post.hubs }}</span>
     </div>
@@ -59,6 +59,21 @@
 </template>
 
 <script>
+const RU_MONTHS = [
+  'января',
+  'февраля',
+  'марта',
+  'апреля',
+  'мая',
+  'июня',
+  'июля',
+  'августа',
+  'сентября',
+  'октября',
+  'ноября',
+  'декабря'
+]
+
 export default {
   name: 'PostItem',
   data () {
@@ -94,7 +109,18 @@ export default {
   },
   filters: {
     formatPostDate (val) {
-      return val.match(/[^T]+/)[0]
+      const postDate = new Date(val)
+      const startOfDay = (new Date()).setHours(0, 0, 0, 0)
+      const minutes = ('0' + postDate.getMinutes()).slice(-2)
+      const hours = postDate.getHours()
+      const day = postDate.getDate()
+      const monthIndex = postDate.getMonth()
+      const year = postDate.getFullYear()
+
+      if (postDate.valueOf() > startOfDay) return `сегодня в ${hours}:${minutes}`
+
+      return `${day} ${RU_MONTHS[monthIndex]} ${year}`
+      // return val.match(/[^T]+/)[0]
     }
   }
 }
@@ -212,7 +238,7 @@ export default {
     opacity: 0;
     visibility: visible;
     transition: 0.25s 0.25s ease;
-    transition-delay: 0.3s;
+    transition-delay: 0.5s;
     transform: translate3d(0, 16px, 0);
     font-size: 24px;
     cursor: pointer;
@@ -227,7 +253,6 @@ export default {
     transform: none;
     visibility: visible;
     opacity: 1;
-    transition-delay: 0s;
   }
 
   .post-menu {

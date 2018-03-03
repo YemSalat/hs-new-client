@@ -94,6 +94,24 @@
         </label>
       </div>
 
+      <div class="query-item query-keyword">
+        <label
+          :class="{
+            'query-item-box': true,
+            'marked': true,
+            '_active': keyword && keyword.length
+          }"
+        >
+          <span>найти</span>
+          <input
+            @input="updateKeyword"
+            name="keyword"
+            type="text"
+            placeholder="..."
+          />
+        </label>
+      </div>
+
       <div class="query-item query-item_order back-drop">
         <span class="back-drop-splash" />
         <label
@@ -123,6 +141,8 @@ export default {
   name: 'PostFilters',
   data () {
     return {
+      keywordInputDelay: 700,
+      keywordTimer: -1,
       filters: {
         by: [
           { val: 'comments' },
@@ -149,8 +169,22 @@ export default {
     }
   },
   methods: {
-    moveBackDrop (e) {
-      const item = e.target ? e.target.parentNode : e.querySelector('._active')
+    updateKeyword (evt) {
+      const { value } = evt.target
+      if (typeof value !== 'string') return
+      if (value === '') {
+        this.keyword = ''
+        return
+      }
+
+      clearTimeout(this.keywordTimer)
+      this.keywordTimer = setTimeout(() => {
+        console.log(this)
+        if (value.length > 1) this.keyword = value
+      }, this.keywordInputDelay)
+    },
+    moveBackDrop (evt) {
+      const item = evt.target ? evt.target.parentNode : evt.querySelector('._active')
       if (item.tagName !== 'LABEL') return
 
       const splash = item.parentNode.querySelector('.back-drop-splash')
@@ -173,6 +207,15 @@ export default {
     backDrops.forEach(drop => drop.addEventListener('click', this.moveBackDrop))
   },
   computed: {
+    keyword: {
+      get () {
+        return this.$store.state.selectedFilters.keyword
+      },
+      set (val) {
+        this.$store.commit('updateSelectedFilter', { filter: 'keyword', val })
+        this.$store.dispatch('scheduleLoadData')
+      }
+    },
     selectedFrom: {
       get () {
         return this.$store.state.selectedFilters.from
@@ -270,6 +313,18 @@ export default {
         vertical-align: middle;
       }
     }
+
+    & input[type="text"] {
+      background: transparent;
+      border: none;
+      font-weight: 400;
+    }
+  }
+
+  .query-keyword {
+    & > .query-item-box {
+      color: #777;
+    }
   }
 
   .query-item-inner {
@@ -297,6 +352,11 @@ export default {
     padding: 0 12px;
     cursor: pointer;
     white-space: nowrap;
+
+    & > span {
+      display: inline-block;
+      vertical-align: middle;
+    }
 
     &.marked {
       margin: 0;

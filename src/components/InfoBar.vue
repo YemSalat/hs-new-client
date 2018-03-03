@@ -74,6 +74,10 @@ export default {
     domain () {
       if (this.$store.state.selectedFilters.domain.length !== 1) return ''
       return dictionary.domain[this.$store.state.selectedFilters.domain]
+    },
+    keyword () {
+      if (!this.$store.state.selectedFilters.keyword) return ''
+      return dictionary.domain[this.$store.state.selectedFilters.domain]
     }
   },
   methods: {
@@ -96,5 +100,9 @@ export default {
   }
   .query-info-text {
     margin-right: 10px;
+  }
+  .filtered-posts {
+    margin-left: 10px;
+    cursor: pointer;
   }
 </style>

@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
       domain: ['habrahabr.ru'],
       by: 'comments',
       order: 'desc',
-      from: '2017-01-01'
+      from: '2017-01-01',
+      keyword: ''
     },
     loading: true,
     loadingTimer: null,
