@@ -46,10 +46,34 @@
           />
           <span>{{ filter.label }}</span>
         </label>
+        <label
+          for="sinceInput"
+          :class="{
+            'query-item-box': true,
+            '_active': 'since' === selectedDate
+          }"
+        >
+          <input
+            id="sinceInput"
+            v-model="selectedDate"
+            name="date"
+            type="radio"
+            value="since"
+            :checked="'since' === selectedDate"
+          />
+          <span>от.. </span>
+          <input
+            v-model="selectedFrom"
+            v-on:click.prevent="state.$store.selectedFilters.date = 'since'"
+            type="date"
+            value="2017-01-01"
+            class="from-input"
+          >
+        </label>
       </div>
     </div>
     <div class="query-row __unselectable">
-      <div class="query-item query-item_order back-drop">
+      <div class="query-item query-item_by back-drop">
         <span class="back-drop-splash" />
         <label
           v-for="filter in filters.by"
@@ -65,6 +89,27 @@
             type="radio"
             :value="filter.val"
             :checked="filter.val === $store.state.selectedFilters.by"
+          />
+          <span :class="[ 'icon', filter.val]" />
+        </label>
+      </div>
+
+      <div class="query-item query-item_order back-drop">
+        <span class="back-drop-splash" />
+        <label
+          v-for="filter in filters.order"
+          :key="filter.val"
+          :class="{
+            'query-item-box': true,
+            '_active': filter.val === $store.state.selectedFilters.order
+          }"
+        >
+          <input
+            v-model="selectedOrder"
+            name="order"
+            type="radio"
+            :value="filter.val"
+            :checked="filter.val === $store.state.selectedFilters.order"
           />
           <span :class="[ 'icon', filter.val]" />
         </label>
@@ -95,6 +140,10 @@ export default {
         domain: [
           { label: 'habrahabr', val: 'habrahabr.ru' },
           { label: 'geektimes', val: 'geektimes.ru' }
+        ],
+        order: [
+          { val: 'desc' },
+          { val: 'asc' }
         ]
       }
     }
@@ -105,8 +154,8 @@ export default {
       if (item.tagName !== 'LABEL') return
 
       const splash = item.parentNode.querySelector('.back-drop-splash')
-      console.log(item.offsetLeft, item)
-      splash.style.transform = `translate3d(${item.offsetLeft}px, 0, 0)`
+      splash.style.transform = `translate3d(${item.offsetLeft}px, ${item.offsetTop}px, 0)`
+      splash.style.height = `${item.offsetHeight}px`
       splash.style.width = `${item.offsetWidth}px`
     }
   },
@@ -124,6 +173,16 @@ export default {
     backDrops.forEach(drop => drop.addEventListener('click', this.moveBackDrop))
   },
   computed: {
+    selectedFrom: {
+      get () {
+        return this.$store.state.selectedFilters.from
+      },
+      set (val) {
+        this.$store.commit('updateSelectedFilter', { filter: 'date', val: 'since' })
+        this.$store.commit('updateSelectedFilter', { filter: 'from', val })
+        this.$store.dispatch('scheduleLoadData')
+      }
+    },
     selectedDate: {
       get () {
         return this.$store.state.selectedFilters.date
@@ -150,27 +209,41 @@ export default {
         this.$store.commit('updateSelectedFilter', { filter: 'by', val })
         this.$store.dispatch('scheduleLoadData')
       }
+    },
+    selectedOrder: {
+      get () {
+        return this.$store.state.selectedFilters.order
+      },
+      set (val) {
+        this.$store.commit('updateSelectedFilter', { filter: 'order', val })
+        this.$store.dispatch('scheduleLoadData')
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
+  .from-input {
+    background: transparent;
+    border: none;
+    height: 20px;
+    font-family: 'Ubuntu Light', 'Ubuntu', sans-serif;
+    font-size: 14px;
+    vertical-align: baseline;
+  }
+
   .back-drop-splash {
     position: absolute;
+    z-index: -1;
     top: 0;
     bottom: 0;
     background: #fff;
-    transition: 0.1s ease-out;
-    border-radius: 8px;
+    transition: 0.15s ease-out;
   }
 
   .query-row {
     margin-bottom: 24px;
-
-    // &:last-child {
-    //   margin-bottom: 0;
-    // }
   }
 
   .query-item {
@@ -178,26 +251,14 @@ export default {
     font-size: 16px;
     display: inline-block;
     margin-right: 24px;
-    // background: rgba(255,255,255, .4);
-    // border: 1px solid rgba(255,255,255, .5);
-    // border-radius: 8px;
     background: rgba(0,0,0, 0.025);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 2px 7px 0px rgba(0,0,0, .025) inset;
+    overflow: hidden;
 
     &:last-child {
       margin-right: 0;
-    }
-
-    &  label {
-      cursor: pointer;
-      margin-right: 16px;
-      white-space: nowrap;
-
-      &:last-child {
-        margin-right: 0;
-      }
     }
 
     & span {
@@ -225,23 +286,27 @@ export default {
 
   .query-item-box {
     opacity: 0.75;
-    color: #333;
+    color: #1f1f1f;
     background-color: transparent;
     padding: 0;
-    border-radius: 8px;
     display: inline-block;
     box-sizing: border-box;
     text-align: center;
     vertical-align: middle;
     transition: 0.2s ease;
-    margin-right: 5px;
-    padding: 0 8px;
-    overflow: hidden;
+    padding: 0 12px;
+    cursor: pointer;
+    white-space: nowrap;
 
-    &.marked._active {
-      opacity: 1;
-      color: #111;
-      background-color: #fff;
+    &.marked {
+      margin: 0;
+      padding: 0 16px;
+
+      &._active {
+        opacity: 1;
+        color: #111;
+        background-color: #fff;
+      }
     }
 
     & .icon {
@@ -263,24 +328,14 @@ export default {
 
   .icon {
     /* icons */
-    &.rating:before {
-      content: '\e800';
-    }
-    &.stars:before {
-      content: '\e809';
-    }
-    &.comments:before {
-      content: '\e801';
-    }
-    &.views:before {
-      content: '\e802';
-    }
-    &.date:before {
-      content: '\e80f';
-    }
-    &.link-ext:before {
-      content: '\e808';
-    }
+    &.stars::before { content: '\e802'; } /* '' */
+    &.views::before { content: '\e803'; } /* '' */
+    &.rating::before { content: '\e806'; } /* '' */
+    &.comments::before { content: '\f0e5'; } /* '' */
+    &.date::before { content: '\f133'; } /* '' */
+    &.author::before { content: '\f1ae'; } /* '' */
+    &.desc::before { content: '\e800'; } /* '' */
+    &.asc::before { content: '\e801'; } /* '' */
   }
 
   input[type="radio"],

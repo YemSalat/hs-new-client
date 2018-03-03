@@ -1,39 +1,85 @@
 <template>
-  <h1 class="logo-title"><a href="/">Habrascanner</a>
+  <h1 class="logo-title">
+    <a href="/">Habrascanner</a>
     <span
       :class="{
         loader: true,
+        icon: true,
+        'icon-spin4': true,
         _visible: this.$store.state.loading
       }"
     >
-      <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z" class=""></path>
-      </svg>
     </span>
+    <InfoBar />
   </h1>
 </template>
 
 <script>
+import InfoBar from './InfoBar'
+
 export default {
-  name: 'Logo'
+  name: 'Logo',
+  components: {
+    InfoBar
+  }
 }
 </script>
 
 <style lang="scss">
-  .loader {
-    display: inline-block;
-    line-height: 1;
-    width: 12px;
-    vertical-align: middle;
-    animation: rotate-loading infinite 1s linear;
-    transform-origin: 6px 7px;
-    visibility: hidden;
-    opacity: 0;
-    transition: 0.3s ease;
+  .logo-title {
+    margin-top: 0;
 
-    &._visible {
+    & > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .loader {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin: 0 4px;
+    width: 12px;
+
+    &::before, &::after {
+      display: inline-block;
+      line-height: 1;
+      font-size: 12px;
+      vertical-align: middle;
+      transition: 0.3s ease;
+      margin: 0;
+    }
+
+    &::before {
+      animation: rotate-loading infinite 1s linear;
+      transform-origin: 6px 6px;
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 3px;
+      left: 0;
+      transform: scale(0);
+    }
+
+    &._visible::before {
       opacity: 1;
       visibility: visible;
+    }
+
+    &::after {
+      content: '→';
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0.3s;
+    }
+
+    &._visible::after {
+      opacity: 0;
+      visibility: hidden;
+      transition-delay: 0s;
+      transform: scale(1.4) translateX(-3px);
     }
   }
 

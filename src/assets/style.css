@@ -11,32 +11,6 @@ body {
   font-size: 16px
 }
 
-h1,
-h2,
-h3,
-h4,
-p,
-blockquote,
-figure,
-ol,
-ul {
-  margin: 0;
-  padding: 0;
-  line-height: 1
-}
-
-li {
-  display: block
-}
-
-h1,
-h2,
-h3,
-h4,
-p {
-  font-size: inherit
-}
-
 a {
   text-decoration: none;
   color: inherit
@@ -279,8 +253,8 @@ img {
 
 @font-face {
   font-family: 'icons';
-  src: url('../assets/type/icons.eot?6597477');
-  src: url('../assets/type/icons.eot?6597477#iefix') format('embedded-opentype'), url('../assets/type/icons.woff?6597477') format('woff'), url('../assets/type/icons.ttf?6597477') format('truetype'), url('../assets/type/icons.svg?6597477#icons') format('svg');
+  src: url('../assets/type/fontello.eot?6597477');
+  src: url('../assets/type/fontello.eot?6597477#iefix') format('embedded-opentype'), url('../assets/type/fontello.woff?6597477') format('woff'), url('../assets/type/fontello.ttf?6597477') format('truetype'), url('../assets/type/fontello.svg?6597477#icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -318,54 +292,22 @@ img {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-child:before {
-  content: '\e804';
-}
+.icon-down-open:before { content: '\e800'; } /* '' */
+.icon-up-open:before { content: '\e801'; } /* '' */
+.icon-star-empty:before { content: '\e802'; } /* '' */
+.icon-eye:before { content: '\e803'; } /* '' */
+.icon-link:before { content: '\e804'; } /* '' */
+.icon-picture:before { content: '\e805'; } /* '' */
+.icon-thumbs-up:before { content: '\e806'; } /* '' */
+.icon-cog:before { content: '\e807'; } /* '' */
+.icon-spin2:before { content: '\e831'; } /* '' */
+.icon-spin4:before { content: '\e834'; } /* '' */
+.icon-link-ext:before { content: '\f08e'; } /* '' */
+.icon-comment-empty:before { content: '\f0e5'; } /* '' */
+.icon-calendar-empty:before { content: '\f133'; } /* '' */
+.icon-link-ext-alt:before { content: '\f14c'; } /* '' */
+.icon-child:before { content: '\f1ae'; } /* '' */
 
-/* icons */
-.icon-thumbs-up:before {
-  content: '\e800';
-}
-
-.icon-star-empty:before {
-  content: '\e809';
-}
-
-.icon-star:before {
-  content: '\e80c';
-}
-
-.icon-comment-empty:before {
-  content: '\e801';
-}
-
-.icon-chat-empty:before {
-  content: '\e805';
-}
-
-.icon-eye:before {
-  content: '\e802';
-}
-
-.icon-calendar-empty:before {
-  content: '\e80f';
-}
-
-.icon-clock:before {
-  content: '\e808';
-}
-
-.icon-calendar:before {
-  content: '\e809';
-}
-
-.icon-pencil:before {
-  content: '\e813';
-}
-
-.icon-link-ext:before {
-  content: '\e808';
-}
 
 .icon-comment-empty:before,
 .icon-eye:before,
@@ -375,28 +317,6 @@ img {
 
 .icon-link-ext:before {
   content: '\e808';
-}
-
-/*icon ext link */
-
-.post-ct {
-  opacity: 0.25;
-  visibility: visible;
-  transition: 0.25s 0.25s ease;
-  transform: translate3d(0, 100%, 0) scale(0, 1);
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.post-ct:hover {
-  transition: 0.25s 0s ease;
-  opacity: 1;
-}
-
-.e-post:hover .post-ct {
-  transform: none;
-  visibility: visible;
-  opacity: 0.75;
 }
 
 .post-title>a {
@@ -542,11 +462,11 @@ h1.logo-title>a:hover::after {
 }
 
 h1.logo-title::before {
-  content: url('https://habrastorage.org/webt/dg/2v/op/dg2vopvki9lptge8x_kszhgvb48.png');
+  content: url('//i.imgur.com/jvHbgKF.png');
   position: absolute;
   z-index: -1;
   opacity: 0.1;
-  transform: translate(-55%, -45%);
+  transform: translate(-55%, -46%);
 }
 
 h2 {
@@ -581,7 +501,7 @@ body {
   width: 100%;
   max-width: 1024px;
   margin: 0 auto;
-  padding: 20px 0 40px;
+  padding: 24px 0 40px;
   box-sizing: border-box;
 }
 
@@ -756,12 +676,4 @@ body {
   .site-info p {
     font-size: 16px;
   }
-}
-
-@mixin no-select () {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }

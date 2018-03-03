@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app _loading">
     <div class="main">
       <Logo />
 
@@ -10,11 +10,6 @@
       </section>
 
       <section class="s-result">
-        <div class="e-query-info">
-          <div class="e-query-info-content">
-            Found <span class="query-info-amount">517</span> posts
-          </div>
-        </div>
         <div class="c-result">
           <PostList />
         </div>
@@ -45,6 +40,9 @@ export default {
     this.$store.dispatch('loadInitialData')
     this.$store.dispatch('loadData')
   },
+  mounted () {
+    this.$el.classList.remove('_loading')
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -52,3 +50,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  @import 'assets/style.css';
+
+  #app {
+    transition: 0.2s ease-out;
+  }
+
+  #app._loading {
+    opacity: 0.5;
+  }
+</style>
