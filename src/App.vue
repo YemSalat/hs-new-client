@@ -7,6 +7,9 @@
         <div class="c-query-bar">
           <PostFilters />
         </div>
+        <div class="query-info-bar">
+          <InfoBar />
+        </div>
       </section>
 
       <section class="s-result">
@@ -28,13 +31,15 @@
 import Logo from './components/Logo'
 import PostList from './components/PostList'
 import PostFilters from './components/PostFilters'
+import InfoBar from './components/InfoBar'
 
 export default {
   name: 'App',
   components: {
     PostList,
     PostFilters,
-    Logo
+    Logo,
+    InfoBar
   },
   created () {
     this.$store.dispatch('loadInitialData')

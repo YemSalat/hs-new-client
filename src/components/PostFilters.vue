@@ -107,6 +107,7 @@
             @input="updateKeyword"
             name="keyword"
             type="text"
+            :value="keyword"
             placeholder="..."
           />
         </label>
@@ -169,9 +170,12 @@ export default {
     }
   },
   methods: {
+    // TODO: make this into a computed prop with get/set
     updateKeyword (evt) {
-      const { value } = evt.target
-      if (typeof value !== 'string') return
+      let { value } = evt.target
+      value = value.trim().replace(/\s+/, ' ').substr(0, 16)
+
+      if (typeof value !== 'string' || value === this.keyword) return
       if (value === '') {
         this.keyword = ''
         return
@@ -179,8 +183,7 @@ export default {
 
       clearTimeout(this.keywordTimer)
       this.keywordTimer = setTimeout(() => {
-        console.log(this)
-        if (value.length > 1) this.keyword = value
+        if (value.length > 2) this.keyword = value
       }, this.keywordInputDelay)
     },
     moveBackDrop (evt) {
@@ -318,6 +321,7 @@ export default {
       background: transparent;
       border: none;
       font-weight: 400;
+      max-width: 140px;
     }
   }
 

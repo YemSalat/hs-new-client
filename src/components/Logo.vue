@@ -10,24 +10,19 @@
       }"
     >
     </span>
-    <InfoBar />
   </h1>
 </template>
 
 <script>
-import InfoBar from './InfoBar'
-
 export default {
-  name: 'Logo',
-  components: {
-    InfoBar
-  }
+  name: 'Logo'
 }
 </script>
 
 <style lang="scss">
   .logo-title {
     margin-top: 0;
+    vertical-align: middle;
 
     & > * {
       display: inline-block;
@@ -57,8 +52,6 @@ export default {
       transform-origin: 6px 6px;
       visibility: hidden;
       opacity: 0;
-      position: absolute;
-      top: 3px;
       left: 0;
       transform: scale(0);
     }
@@ -68,19 +61,19 @@ export default {
       visibility: visible;
     }
 
-    &::after {
-      content: '→';
-      opacity: 1;
-      visibility: visible;
-      transition-delay: 0.3s;
-    }
+    // &::after {
+    //   content: '→';
+    //   opacity: 1;
+    //   visibility: visible;
+    //   transition-delay: 0.3s;
+    // }
 
-    &._visible::after {
-      opacity: 0;
-      visibility: hidden;
-      transition-delay: 0s;
-      transform: scale(1.4) translateX(-3px);
-    }
+    // &._visible::after {
+    //   opacity: 0;
+    //   visibility: hidden;
+    //   transition-delay: 0s;
+    //   transform: scale(1.4) translateX(-3px);
+    // }
   }
 
   @keyframes rotate-loading {

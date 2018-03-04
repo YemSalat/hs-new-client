@@ -3,7 +3,7 @@
     :class="{
       'e-post': true,
       '_menu-open': this.menuOpen,
-      '_ignored': post.ignored
+      '_ignored': post.ignored || post.ignoredAuthor
     }"
   >
     <div
@@ -35,7 +35,7 @@
       <span class="post-rating icon icon-thumbs-up">{{ post.rating }}</span>
       <span class="post-views icon icon-eye">{{ post.views }}</span>
       <span class="post-stars icon icon-star-empty">{{ post.stars }}</span>
-      <span class="post-date icon icon-calendar-empty">{{ post.date | formatPostDate }}</span>
+      <span :title="post.date" class="post-date icon icon-calendar-empty">{{ post.date | formatPostDate }}</span>
       <span class="post-author icon icon-child">
         <a :href="post.domain + '/users/' + post.author" rel="noopener">{{ post.author }}</a>
       </span>
@@ -48,8 +48,11 @@
           @click="toggleMenu()"
         >
           <ul class="post-menu">
-            <li title="Ignore post" @click="ignorePost(post)">Ignore post</li>
-            <li title="Ignore author" @click="ignoreAuthor(post)">Ignore author</li>
+            <li v-if="!post.ignored" title="Ignore post" @click="ignorePost(post)">Ignore post</li>
+            <li v-else title="Unblock post" @click="unblockPost(post)">Unblock post</li>
+
+            <li v-if="!post.ignoredAuthor" title="Ignore author" @click="ignoreAuthor(post)">Ignore author</li>
+            <li v-else title="Unblock author" @click="unblockAuthor(post)">Unblock author</li>
             <li title="Save to favorites">Save to favorites</li>
           </ul>
         </span>
@@ -91,8 +94,14 @@ export default {
     ignorePost (post) {
       this.$store.commit('addIgnoredPost', post)
     },
+    unblockPost (post) {
+      this.$store.commit('removeIgnoredPost', post)
+    },
     ignoreAuthor (post) {
       this.$store.commit('addIgnoredAuthor', post)
+    },
+    unblockAuthor (post) {
+      this.$store.commit('removeIgnoredAuthor', post)
     }
   },
   computed: {
@@ -237,9 +246,9 @@ export default {
     position: relative;
     opacity: 0;
     visibility: visible;
-    transition: 0.25s 0.25s ease;
-    transition-delay: 0.5s;
-    transform: translate3d(0, 16px, 0);
+    transition: 0.35s ease;
+    transition-delay: 0.45s;
+    transform: translate3d(0, 8px, 0);
     font-size: 24px;
     cursor: pointer;
 
@@ -253,6 +262,7 @@ export default {
     transform: none;
     visibility: visible;
     opacity: 1;
+    transition-delay: 0.35s;
   }
 
   .post-menu {
@@ -281,6 +291,7 @@ export default {
 
     & > li {
       padding: 8px;
+      cursor: pointer;
 
       &:hover {
         background-color: #eaf8ff;

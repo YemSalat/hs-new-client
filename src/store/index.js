@@ -33,7 +33,7 @@ export const store = new Vuex.Store({
             post.ignored = true
             return state.showIgnored
           } else if (state.userSettings.ignoredAuthors.indexOf(post.author) > -1) {
-            post.ignored = true
+            post.ignoredAuthor = true
             return state.showIgnored
           }
           return true
@@ -45,10 +45,28 @@ export const store = new Vuex.Store({
       post.ignored = true
       state.userSettings.ignoredPosts.push(`${post.domain}_${post.id}`)
     },
+    removeIgnoredPost (state, post) {
+      post.ignored = false
+      state.userSettings.ignoredPosts = state.userSettings.ignoredPosts
+        .filter(postDomainId => {
+          return postDomainId !== `${post.domain}_${post.id}`
+        })
+    },
+    removeIgnoredAuthor (state, post) {
+      state.userSettings.ignoredAuthors = state.userSettings.ignoredAuthors
+        .filter(author => {
+          post.ignoredAuthor = false
+          return author !== post.author
+        })
+      state.posts = state.posts.map(p => {
+        p.ignoredAuthor = false
+        return p
+      })
+    },
     addIgnoredAuthor (state, post) {
       state.posts.forEach(p => {
         if (p.author === post.author) {
-          p.ignored = true
+          p.ignoredAuthor = true
         }
       })
       state.userSettings.ignoredAuthors.push(post.author)
@@ -56,6 +74,7 @@ export const store = new Vuex.Store({
     updatePosts (state, posts) {
       state.posts = posts.map(p => {
         p.ignored = false
+        p.ignoredAuthor = false
         return p
       })
       localStorage.setItem(`${STORAGE_PREFIX}posts`, JSON.stringify(posts))

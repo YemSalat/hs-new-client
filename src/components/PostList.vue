@@ -6,7 +6,7 @@
       }"
   >
   <div v-if="allPosts.length === 0" class="placeholder">
-    Nothing found 😢
+    Ничего не найдено 😢
   </div>
   <transition-group tag="div" name="post-list">
     <post-item v-for="post in allPosts" :key="post.id" :post="post" />
