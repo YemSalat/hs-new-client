@@ -1,10 +1,18 @@
 <template>
   <span class="e-query-info-content">
     <span v-if="errorText">{{ errorText }}</span>
-    <span v-else class="query-info-text">{{ amount }} {{ postsLabel }} <span class="info-mark">{{ domain }} {{ date }} {{ keyword }}</span> отсортированных по <span class="info-mark">{{ by }}</span> в порядке <span class="info-mark">{{ order }}</span></span>
+    <span v-else class="query-info-text">
+      {{ amount | postsAmount }}
+      <span class="info-mark">{{ domain }} {{ date }}</span>
+      <span v-if="keyword"> со словом </span><span v-if="keyword" class="info-mark _sp">{{ keyword }}</span>
+      <span v-if="amount > 0">
+        отсортированы по <span class="info-mark">{{ by }}</span>
+        в порядке <span class="info-mark">{{ order }}</span>
+      </span>
+    </span>
 
     <span v-if="filteredPosts" class="ignored-posts" @click="toggleIgnoredPosts()">
-      :: скрыто {{ filteredPosts }} постов
+      :: скрыто {{ filteredPosts | postsAmount }} постов
       <span v-if="showIgnored === true">убрать</span>
       <span v-else>показать</span>
     </span>
@@ -39,18 +47,6 @@ const dictionary = {
 export default {
   name: 'InfoBar',
   computed: {
-    postsLabel () {
-      const postsAmount = this.$store.getters.allPosts.length
-      if (!postsAmount) {
-        return 'постов'
-      } else if (postsAmount === 1) {
-        return 'пост'
-      } else if (postsAmount < 5) {
-        return 'поста'
-      } else {
-        return 'постов'
-      }
-    },
     showIgnored () {
       return this.$store.state.showIgnored
     },
@@ -90,12 +86,26 @@ export default {
     keyword () {
       const keyword = this.$store.state.selectedFilters.keyword
       if (!keyword || keyword.length < 2) return ''
-      return `со словом «${keyword}»`
+      return `«${keyword}»`
     }
   },
   methods: {
     toggleIgnoredPosts () {
       this.$store.commit('setShowIgnoredPosts', !this.$store.state.showIgnored)
+    }
+  },
+  filters: {
+    postsAmount (val) {
+      const postsAmount = parseInt(val, 10)
+      if (!postsAmount) {
+        return `${postsAmount} постов`
+      } else if (postsAmount === 1) {
+        return `${postsAmount} пост`
+      } else if (postsAmount < 5) {
+        return `${postsAmount} поста`
+      } else {
+        return `${postsAmount} постов`
+      }
     }
   }
 }
@@ -115,6 +125,11 @@ export default {
     // padding: 0 4px;
     // border-radius: 4px;
     border-bottom: 1px solid rgba(0,0,0, 0.1);
+    &._sp {
+      background: #fff;
+      padding: 0 2px;
+      // border: none;
+    }
   }
 
   .query-info-text {

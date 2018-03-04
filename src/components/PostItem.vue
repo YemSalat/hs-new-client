@@ -3,7 +3,8 @@
     :class="{
       'e-post': true,
       '_menu-open': this.menuOpen,
-      '_ignored': post.ignored || post.ignoredAuthor
+      '_ignored': post.ignored || post.ignoredAuthor,
+      '_moved': !!post.flag
     }"
   >
     <div
@@ -11,10 +12,10 @@
       class="post-image"
       :style="'background-image: url('+ post.image +')'"
     >
-      <a target="_blank" :href="post.url" rel="noopener"></a>
+      <a target="_blank" :href="postUrl" rel="noopener"></a>
     </div>
     <h3 class="post-title">
-      <a :href="post.url" rel="noopener">{{ post.title }}</a>
+      <a :href="postUrl" rel="noopener">{{ post.title }}</a>
     </h3>
     <p class="post-content">{{ post.content }}..</p>
     <div class="post-info-hubs">
@@ -30,7 +31,7 @@
           }"
       />
       <span class="post-comments icon icon-comment-empty">
-        <a :href="post.url + '#comments'" rel="noopener">{{ post.comments }}</a>
+        <a :href="postUrl + '#comments'" rel="noopener">{{ post.comments }}</a>
       </span>
       <span class="post-rating icon icon-thumbs-up">{{ post.rating }}</span>
       <span class="post-views icon icon-eye">{{ post.views }}</span>
@@ -114,6 +115,13 @@ export default {
       if (this.post.is_recovery) flags.push('Recovery')
 
       return flags.length ? `[${flags.join(', ')}]` : ''
+    },
+    postUrl () {
+      const { id, flag, domain, url } = this.post
+      if (flag === 1) {
+        return `https://sohabr.net/${domain === 'habrahabr.ru' ? 'habr' : 'gt'}/post/${id}`
+      }
+      return url
     }
   },
   filters: {
@@ -140,15 +148,37 @@ export default {
     position: relative;
     color: #111;
     background-color: #fff;
-    border-color: #e7e7e7;
+    border: 1px solid #e7e7e7;
     padding: 20px;
     margin-bottom: 30px;
     box-sizing: border-box;
     transition: 0.25s ease;
 
+    &._moved {
+      background-color: #eff4f5;
+      border: 1px solid #cbcbcb;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: -4px;
+        top: -14px;
+        -webkit-transform: rotateZ(-45deg);
+        transform: rotateZ(-135deg);
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-left: 20px solid #cbcbcb;
+      }
+    }
+
     &._ignored {
       background-color: #f7f5f1;
       border: 1px solid #e0e0e0;
+
+      &::after {
+        border-left-color: #e0e0e0;
+      }
     }
   }
 
