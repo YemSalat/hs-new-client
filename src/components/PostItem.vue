@@ -114,7 +114,7 @@ export default {
       if (this.post.is_tutorial) flags.push('Tutorial')
       if (this.post.is_recovery) flags.push('Recovery')
 
-      return flags.length ? `[${flags.join(', ')}]` : ''
+      return flags.length ? `[ ${flags.join(', ')} ]` : ''
     },
     postUrl () {
       const { id, flag, domain, url } = this.post
@@ -201,6 +201,7 @@ export default {
     margin-left: 20px;
     background-size: cover;
     background-position: center;
+    background-color: #eee;
     margin-top: 10px;
     position: relative;
 
@@ -276,7 +277,7 @@ export default {
     position: relative;
     opacity: 0;
     visibility: visible;
-    transition: 0.35s ease;
+    transition: 0.5s ease;
     transition-delay: 0.45s;
     transform: translate3d(0, 8px, 0);
     font-size: 24px;
@@ -292,7 +293,7 @@ export default {
     transform: none;
     visibility: visible;
     opacity: 1;
-    transition-delay: 0.35s;
+    transition-delay: 0.25s;
   }
 
   .post-menu {

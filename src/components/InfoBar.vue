@@ -12,7 +12,7 @@
     </span>
 
     <span v-if="filteredPosts" class="ignored-posts" @click="toggleIgnoredPosts()">
-      :: скрыто {{ filteredPosts | postsAmount }} постов
+      :: скрыто {{ filteredPosts | postsAmount }}
       <span v-if="showIgnored === true">убрать</span>
       <span v-else>показать</span>
     </span>

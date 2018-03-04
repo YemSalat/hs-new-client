@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+debugger
 const STORAGE_PREFIX = '$hs_'
 
 Vue.use(Vuex)
@@ -10,7 +11,7 @@ export const store = new Vuex.Store({
     posts: [],
     selectedFilters: {
       date: 'twodays',
-      domain: ['habrahabr.ru'],
+      domain: ['habrahabr.ru', 'geektimes.ru'],
       by: 'comments',
       order: 'desc',
       from: '2017-01-01',
@@ -21,7 +22,8 @@ export const store = new Vuex.Store({
     errorText: null,
     userSettings: {
       ignoredAuthors: [],
-      ignoredPosts: []
+      ignoredPosts: [],
+      saveFilters: false
     },
     showIgnored: false
   },
@@ -44,6 +46,7 @@ export const store = new Vuex.Store({
     addIgnoredPost (state, post) {
       post.ignored = true
       state.userSettings.ignoredPosts.push(`${post.domain}_${post.id}`)
+      localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
     },
     removeIgnoredPost (state, post) {
       post.ignored = false
@@ -51,6 +54,7 @@ export const store = new Vuex.Store({
         .filter(postDomainId => {
           return postDomainId !== `${post.domain}_${post.id}`
         })
+      localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
     },
     removeIgnoredAuthor (state, post) {
       state.userSettings.ignoredAuthors = state.userSettings.ignoredAuthors
@@ -62,6 +66,7 @@ export const store = new Vuex.Store({
         p.ignoredAuthor = false
         return p
       })
+      localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
     },
     addIgnoredAuthor (state, post) {
       state.posts.forEach(p => {
@@ -70,6 +75,7 @@ export const store = new Vuex.Store({
         }
       })
       state.userSettings.ignoredAuthors.push(post.author)
+      localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
     },
     updatePosts (state, posts) {
       state.posts = posts.map(p => {
@@ -82,6 +88,9 @@ export const store = new Vuex.Store({
     updateFilters (state, filters) {
       state.selectedFilters = filters
     },
+    updateSettings (state, settings) {
+      state.userSettings = settings
+    },
     setError (state, errorText) {
       state.errorText = errorText
     },
@@ -93,15 +102,21 @@ export const store = new Vuex.Store({
     },
     updateSelectedFilter (state, update) {
       state.selectedFilters[update.filter] = update.val
-      localStorage.setItem(`${STORAGE_PREFIX}filters`, JSON.stringify(state.selectedFilters))
+      if (state.userSettings.saveFilters) {
+        localStorage.setItem(`${STORAGE_PREFIX}filters`, JSON.stringify(state.selectedFilters))
+      }
     }
   },
   actions: {
-    loadInitialData ({ commit }) {
+    loadInitialData ({ state, commit }) {
+      const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`) || 'null')
+      if (settings) commit('updateSettings', settings)
       const posts = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}posts`) || 'null')
-      const filters = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}filters`) || 'null')
       if (posts) commit('updatePosts', posts)
-      if (filters) commit('updateFilters', filters)
+      if (state.userSettings.saveFilters) {
+        const filters = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}filters`) || 'null')
+        if (filters) commit('updateFilters', filters)
+      }
     },
     loadData ({ state, commit }) {
       commit('setLoading', true)
@@ -117,7 +132,7 @@ export const store = new Vuex.Store({
         .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(state.selectedFilters[k])}`)
         .join('&')
 
-      fetch(`http://new.habrascanner.com/v1/posts?${params}`)
+      fetch(`/v1/posts?${params}`)
         .then(data => data.json().then(body => {
           commit('updatePosts', body.posts)
           commit('setLoading', false)

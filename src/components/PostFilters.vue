@@ -64,7 +64,7 @@
           <span>от.. </span>
           <input
             v-model="selectedFrom"
-            v-on:click.prevent="state.$store.selectedFilters.date = 'since'"
+            v-on:click="state.$store.selectedFilters.date = 'since'"
             type="date"
             value="2017-01-01"
             class="from-input"
