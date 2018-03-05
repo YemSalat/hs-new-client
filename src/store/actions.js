@@ -57,8 +57,6 @@ export default {
       .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(state.selectedFilters[k])}`)
       .join('&')
 
-    console.log(params)
-
     fetch(`/v1/posts?${params}`)
       .then(data => data.json().then(body => {
         commit('updatePosts', body.posts)

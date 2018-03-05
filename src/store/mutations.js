@@ -62,10 +62,14 @@ export default {
   },
   updateSelectedFilter (state, update) {
     state.selectedFilters[update.filter] = update.val
-    const filters = Object.assign({}, state.selectedFilters)
-    if (filters.domain.length !== 1) delete filters.domain
-    if (filters.date !== 'since') delete filters.from
-    location.hash = queryString.stringify(filters)
+    const hashFilters = JSON.parse(JSON.stringify(Object.assign({}, state.selectedFilters)))
+
+    if (hashFilters.domain.length !== 1) delete hashFilters.domain
+    if (hashFilters.date !== 'since') delete hashFilters.from
+    if (!hashFilters.keyword || hashFilters.keyword.length < 3) delete hashFilters.keyword
+
+    location.hash = queryString.stringify(hashFilters)
+
     if (state.userSettings.saveFilters) {
       localStorage.setItem(`${STORAGE_PREFIX}filters`, JSON.stringify(state.selectedFilters))
     }

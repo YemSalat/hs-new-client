@@ -1,6 +1,7 @@
 <template>
   <h1 class="logo-title">
     <a href="/">Habrascanner</a>
+    <!-- <a href="/">Хабрасканер</a> -->
     <span
       :class="{
         loader: true,

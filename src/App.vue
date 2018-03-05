@@ -41,18 +41,15 @@ export default {
     InfoBar
   },
   created () {
-
-    // window.onpopstate = evt => {
-    //   this.$store.dispatch('loadFiltersFromHash')
-    //   this.$store.dispatch('loadData')
-    // }
+    window.onpopstate = evt => {
+      this.$store.dispatch('loadFiltersFromHash')
+      this.$store.dispatch('scheduleLoadData')
+    }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.$store.dispatch('loadInitialData')
-      this.$store.dispatch('loadData')
-      this.$store.dispatch('loadFiltersFromHash')
-    })
+    this.$store.dispatch('loadInitialData')
+    this.$store.dispatch('loadData')
+    this.$store.dispatch('loadFiltersFromHash')
 
     this.$el.classList.remove('_loading')
   },
