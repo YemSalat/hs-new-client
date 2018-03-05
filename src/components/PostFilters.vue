@@ -28,7 +28,7 @@
         </label>
       </div>
       <div class="query-item query-item_date back-drop">
-        <span class="back-drop-splash" />
+        <BackDrop group="date" />
         <label
           v-for="filter in filters.date"
           :key="filter.label"
@@ -64,7 +64,7 @@
           <span>от.. </span>
           <input
             v-model="selectedFrom"
-            v-on:click="state.$store.selectedFilters.date = 'since'"
+            v-on:click="$store.state.selectedFilters.date = 'since'"
             type="date"
             value="2017-01-01"
             class="from-input"
@@ -74,7 +74,7 @@
     </div>
     <div class="query-row __unselectable">
       <div class="query-item query-item_by back-drop">
-        <span class="back-drop-splash" />
+        <BackDrop group="by" />
         <label
           v-for="filter in filters.by"
           :key="filter.val"
@@ -114,7 +114,7 @@
       </div>
 
       <div class="query-item query-item_order back-drop">
-        <span class="back-drop-splash" />
+        <BackDrop group="order" />
         <label
           v-for="filter in filters.order"
           :key="filter.val"
@@ -138,8 +138,13 @@
 </template>
 
 <script>
+import BackDrop from './BackDrop'
+
 export default {
   name: 'PostFilters',
+  components: {
+    BackDrop
+  },
   data () {
     return {
       keywordInputDelay: 700,
@@ -185,29 +190,7 @@ export default {
       this.keywordTimer = setTimeout(() => {
         if (value.length > 2) this.keyword = value
       }, this.keywordInputDelay)
-    },
-    moveBackDrop (evt) {
-      const item = evt.target ? evt.target.parentNode : evt.querySelector('._active')
-      if (item.tagName !== 'LABEL') return
-
-      const splash = item.parentNode.querySelector('.back-drop-splash')
-      splash.style.transform = `translate3d(${item.offsetLeft}px, ${item.offsetTop}px, 0)`
-      splash.style.height = `${item.offsetHeight}px`
-      splash.style.width = `${item.offsetWidth}px`
     }
-  },
-  mounted: function () {
-    this.$nextTick(function () {
-      const backDrops = this.$el.querySelectorAll('.back-drop')
-      backDrops.forEach(drop => {
-        drop.addEventListener('click', this.moveBackDrop)
-        this.moveBackDrop(drop)
-      })
-    })
-  },
-  beforeDestroy: function () {
-    const backDrops = this.$el.querySelectorAll('.back-drop')
-    backDrops.forEach(drop => drop.addEventListener('click', this.moveBackDrop))
   },
   computed: {
     keyword: {
@@ -286,6 +269,7 @@ export default {
     bottom: 0;
     background: #fff;
     transition: 0.15s ease-out;
+    pointer-events: none;
   }
 
   .query-row {

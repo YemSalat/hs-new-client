@@ -121,14 +121,10 @@ export default {
     vertical-align: middle
   }
   .info-mark {
-    // background: rgba(255, 255, 255, 0.6);
-    // padding: 0 4px;
-    // border-radius: 4px;
     border-bottom: 1px solid rgba(0,0,0, 0.1);
     &._sp {
       background: #fff;
       padding: 0 2px;
-      // border: none;
     }
   }
 
@@ -137,8 +133,8 @@ export default {
   }
 
   .ignored-posts {
-    // margin-left: 10px;
     cursor: pointer;
+
     & > span {
       border-bottom: 1px dashed rgba(0,0,0, 0.1);
     }
