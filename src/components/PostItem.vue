@@ -91,8 +91,22 @@ export default {
     post: { type: Object, required: true }
   },
   methods: {
+    closeWhenOutside (evt) {
+      if (event.target.parentNode.className !== 'popup-menu') {
+        this.menuOpen = false
+        document.removeEventListener('click', this.closeWhenOutside)
+      }
+    },
     toggleMenu () {
-      this.menuOpen = !this.menuOpen
+      if (this.menuOpen === false) {
+        this.menuOpen = true
+        this.$nextTick(() => {
+          document.addEventListener('click', this.closeWhenOutside)
+        })
+      } else {
+        this.menuOpen = false
+        document.removeEventListener('click', this.closeWhenOutside)
+      }
     },
     ignorePost (post) {
       this.$store.commit('addIgnoredPost', post)

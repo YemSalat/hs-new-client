@@ -57,7 +57,10 @@ export default {
       }).length
       const ignoredAuthors = this.$store.state.posts.filter(post => {
         return this.$store.state.userSettings.ignoredAuthors
-          .filter(p => p.author === post.author).length > 0
+          .filter(
+            p => p.author === post.author &&
+            this.$store.state.userSettings.ignoredPosts.filter(p => p.id === post.id).length === 0
+          ).length > 0
       }).length
       return ignoredPosts + ignoredAuthors
     },

@@ -30,6 +30,9 @@
           <span>Display removed posts</span>
           <input type="checkbox" />
         </label>
+        <label>
+          <a class="setting">Clear application cache</a>
+        </label>
       </div>
       <div
         :class="{
@@ -311,6 +314,15 @@ export default {
       margin-right: 12px;
     }
 
+    & a.setting {
+      color: #3498db;
+      cursor: pointer;
+
+      &:hover {
+        border-bottom: 1px dashed;
+      }
+    }
+
     & p {
       margin: 0 0 12px;
       line-height: 1.4;
@@ -318,6 +330,7 @@ export default {
 
     & label {
       display: block;
+      padding: 8px 0;
 
       & > span {
         display: inline-block;
@@ -327,6 +340,7 @@ export default {
       & > input {
         display: inline-block;
         vertical-align: middle;
+        height: auto;
       }
     }
   }

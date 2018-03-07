@@ -1,20 +1,20 @@
 <template>
   <div class="app _loading">
     <div class="main">
-      <Logo />
+      <logo />
 
       <section class="s-query">
         <div class="c-query-bar">
-          <PostFilters />
+          <post-filters />
         </div>
         <div class="query-info-bar">
-          <InfoBar />
+          <info-bar />
         </div>
       </section>
 
       <section class="s-result">
         <div class="c-result">
-          <PostList />
+          <post-list />
         </div>
       </section>
 
@@ -23,6 +23,7 @@
         <p>Автор проекта - <a href="https://github.com/YemSalat">YemSalat</a></p>
       </div>
     </div>
+
     <settings-popup />
   </div>
 </template>
