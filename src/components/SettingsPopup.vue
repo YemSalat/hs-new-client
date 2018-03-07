@@ -8,11 +8,21 @@
   >
     <span class="close-popup" @click="close">&#xd7;</span>
     <ul class="popup-tabs">
-      <li @click="openTab" data-tab="settings" :class="{ _active: this.tab === 'settings' }">Settings</li>
-      <li @click="openTab" data-tab="posts" :class="{ _active: this.tab === 'posts' }">Posts</li>
-      <li @click="openTab" data-tab="authors" :class="{ _active: this.tab === 'authors' }">Authors</li>
-      <li @click="openTab" data-tab="favorites" :class="{ _active: this.tab === 'favorites' }">Favorites</li>
-      <li @click="openTab" data-tab="about" :class="{ _active: this.tab === 'about' }">About</li>
+      <li @click="openTab" data-tab="settings" :class="{ _active: this.tab === 'settings' }">
+        Настройки
+      </li>
+      <li @click="openTab" data-tab="posts" :class="{ _active: this.tab === 'posts' }">
+        Посты
+      </li>
+      <li @click="openTab" data-tab="authors" :class="{ _active: this.tab === 'authors' }">
+        Авторы
+      </li>
+      <li @click="openTab" data-tab="favorites" :class="{ _active: this.tab === 'favorites' }">
+        Закладки
+      </li>
+      <li @click="openTab" data-tab="about" :class="{ _active: this.tab === 'about' }">
+        О программе
+      </li>
     </ul>
     <div class="popup-content-wrapper">
       <div
@@ -23,15 +33,15 @@
         data-tab="settings"
       >
         <label>
-          <span>Save filters on reload</span>
+          <span>Сохранять фильтры после закрытия</span>
           <input type="checkbox" v-model="saveFilters" />
         </label>
         <label>
-          <span>Display removed posts</span>
+          <span>Показывать удаленные посты</span>
           <input type="checkbox" />
         </label>
         <label>
-          <a class="setting">Clear application cache</a>
+          <a class="setting" @click.prevent="clearPostCache">Очистить кэш постов</a>
         </label>
       </div>
       <div
@@ -41,7 +51,7 @@
         }"
         data-tab="posts"
       >
-        <p v-if="!settings.ignoredPosts.length">You have no ignored posts</p>
+        <p v-if="!settings.ignoredPosts.length">У вас нет заблокированных постов</p>
         <ul v-else class="popup-list">
           <li v-for="ignoredPost in settings.ignoredPosts" :key="ignoredPost.id">
             <div class="popup-list-item-content">
@@ -55,7 +65,7 @@
               />
               <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
             </div>
-            <span class="list-remove-ignored" @click="removeIgnoredPost(ignoredPost)">remove</span>
+            <span class="list-remove-ignored" @click="removeIgnoredPost(ignoredPost)">удалить</span>
           </li>
         </ul>
       </div>
@@ -66,7 +76,7 @@
         }"
         data-tab="authors"
       >
-        <p v-if="!settings.ignoredAuthors.length">You have no ignored authors</p>
+        <p v-if="!settings.ignoredAuthors.length">У вас нет заблокированных авторов</p>
         <ul v-else class="popup-list">
           <li v-for="ignoredPost in settings.ignoredAuthors" :key="ignoredPost.author">
             <div class="popup-list-item-content">
@@ -80,7 +90,7 @@
               </span> :
               <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
             </div>
-            <span class="list-remove-ignored" @click="removeIgnoredAuthor(ignoredPost)">remove</span>
+            <span class="list-remove-ignored" @click="removeIgnoredAuthor(ignoredPost)">удалить</span>
           </li>
         </ul>
       </div>
@@ -105,7 +115,7 @@
         </p>
         <p>
           Habrascanner v%HS_APP_VERSION% : %HS_GIT_HASH% : 1873<br />
-          <span class="color-gray">Release date:</span> %HS_BUILD_DATE%
+          <span class="color-gray">Release from</span> %HS_BUILD_DATE%
         </p>
       </div>
     </div>
@@ -114,6 +124,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+
+const STORAGE_PREFIX = '$hs_'
 
 export default {
   name: 'PopupSettings',
@@ -149,6 +161,11 @@ export default {
     },
     removeIgnoredAuthor (post) {
       this.$store.commit('removeIgnoredAuthor', post)
+    },
+    clearPostCache (evt) {
+      evt.target.classList.add('_done')
+      this.$nextTick(() => evt.target.classList.remove('_done'))
+      localStorage.removeItem(`${STORAGE_PREFIX}posts`)
     }
   }
 }
@@ -317,6 +334,23 @@ export default {
     & a.setting {
       color: #3498db;
       cursor: pointer;
+      position: relative;
+
+      &::after {
+        content: 'done';
+        color: #555;
+        position: absolute;
+        right: -40px;
+        transition: 1.3s ease;
+        opacity: 0;
+      }
+
+      &._done {
+        &::after {
+          transition-duration: 0s;
+          opacity: 1;
+        }
+      }
 
       &:hover {
         border-bottom: 1px dashed;

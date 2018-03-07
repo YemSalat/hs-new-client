@@ -38,7 +38,7 @@
       <span class="post-stars icon icon-star-empty">{{ post.stars }}</span>
       <span :title="post.date" class="post-date icon icon-calendar-empty">{{ post.date | formatPostDate }}</span>
       <span class="post-author icon icon-child">
-        <a :href="post.domain + '/users/' + post.author" rel="noopener">{{ post.author }}</a>
+        <a :href="'https://' + post.domain + '/users/' + post.author" rel="noopener">{{ post.author }}</a>
       </span>
       <span class="post-info-flags">{{ this.postFlags }}</span>
       <div class="post-controls">
@@ -49,12 +49,12 @@
           @click="toggleMenu()"
         >
           <ul class="post-menu">
-            <li v-if="!post.ignored" title="Ignore post" @click="ignorePost(post)">Ignore post</li>
-            <li v-else title="Unblock post" @click="unblockPost(post)">Unblock post</li>
+            <li v-if="!post.ignored" title="Ignore post" @click="ignorePost(post)">Заблокировать пост</li>
+            <li v-else title="Unblock post" @click="unblockPost(post)">Разблокировать пост</li>
 
-            <li v-if="!post.ignoredAuthor" title="Ignore author" @click="ignoreAuthor(post)">Ignore author</li>
-            <li v-else title="Unblock author" @click="unblockAuthor(post)">Unblock author</li>
-            <li title="Save to favorites">Save to favorites</li>
+            <li v-if="!post.ignoredAuthor" title="Ignore author" @click="ignoreAuthor(post)">Заблокировать автора</li>
+            <li v-else title="Unblock author" @click="unblockAuthor(post)">Разблокировать автора</li>
+            <li title="Save to favorites">Добавить в закладки</li>
           </ul>
         </span>
       </div>
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     closeWhenOutside (evt) {
-      if (event.target.parentNode.className !== 'popup-menu') {
+      if (evt.target.parentNode.className !== 'popup-menu') {
         this.menuOpen = false
         document.removeEventListener('click', this.closeWhenOutside)
       }
