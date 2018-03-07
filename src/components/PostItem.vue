@@ -12,10 +12,10 @@
       class="post-image"
       :style="'background-image: url('+ post.image +')'"
     >
-      <a target="_blank" :href="postUrl" rel="noopener"></a>
+      <a target="_blank" :href="postUrl(post)" rel="noopener">&nbsp;</a>
     </div>
     <h3 class="post-title">
-      <a :href="postUrl" rel="noopener">{{ post.title }}</a>
+      <a :href="postUrl(post)" rel="noopener">{{ post.title }}</a>
     </h3>
     <p class="post-content">{{ post.content }}..</p>
     <div class="post-info-hubs">
@@ -31,7 +31,7 @@
           }"
       />
       <span class="post-comments icon icon-comment-empty">
-        <a :href="postUrl + '#comments'" rel="noopener">{{ post.comments }}</a>
+        <a :href="postUrl(post) + '#comments'" rel="noopener">{{ post.comments }}</a>
       </span>
       <span class="post-rating icon icon-thumbs-up">{{ post.rating }}</span>
       <span class="post-views icon icon-eye">{{ post.views }}</span>
@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 const RU_MONTHS = [
   'января',
   'февраля',
@@ -116,13 +118,7 @@ export default {
 
       return flags.length ? `[ ${flags.join(', ')} ]` : ''
     },
-    postUrl () {
-      const { id, flag, domain, url } = this.post
-      if (flag === 1) {
-        return `https://sohabr.net/${domain === 'habrahabr.ru' ? 'habr' : 'gt'}/post/${id}`
-      }
-      return url
-    }
+    ...mapGetters(['postUrl'])
   },
   filters: {
     formatPostDate (val) {
@@ -227,6 +223,9 @@ export default {
 
   .post-info span {
     display: inline-block;
+    &.post-logo {
+      margin-right: 24px;
+    }
   }
 
   .post-info > span {
@@ -261,9 +260,10 @@ export default {
     width: 20px;
     height: 20px;
     background-size: 100%;
-    margin-right: 20px !important;
+    margin-right: 20px;
     vertical-align: text-bottom;
     opacity: 0.9;
+    display: inline-block;
 
     &.habrahabr {
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 72 72"><path fill="%23c7c7c7" d="M0 0h72v72h-72z"/><path fill="%23fff" d="M40 18v13h-10v-13h-7v31h7v-13h10v13h7v-31z"/></svg>');

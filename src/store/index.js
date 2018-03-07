@@ -27,21 +27,36 @@ export const store = new Vuex.Store({
       ignoredPosts: [],
       saveFilters: false
     },
-    showIgnored: false
+    showIgnored: false,
+    showSettingsPopup: false
   },
   getters: {
     allPosts: state => {
       return state.posts
         .filter(post => {
-          if (state.userSettings.ignoredPosts.indexOf(`${post.domain}_${post.id}`) > -1) {
+          const filteredPosts = state.userSettings.ignoredPosts
+            .filter(p => p.id === post.id && p.domain === post.domain)
+          const filteredAuthors = state.userSettings.ignoredAuthors
+            .filter(p => p.author === post.author)
+          if (filteredPosts.length) {
             post.ignored = true
             return state.showIgnored
-          } else if (state.userSettings.ignoredAuthors.indexOf(post.author) > -1) {
+          } else if (filteredAuthors.length) {
             post.ignoredAuthor = true
             return state.showIgnored
           }
           return true
         })
+    },
+    settings: state => state.userSettings,
+    postUrl () {
+      return post => {
+        const { id, flag, domain, url } = post
+        if (flag === 1) {
+          return `https://sohabr.net/${domain === 'habrahabr.ru' ? 'habr' : 'gt'}/post/${id}`
+        }
+        return url
+      }
     }
   }
 })

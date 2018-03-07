@@ -52,6 +52,16 @@ module.exports = {
   },
 
   build: {
+    // Custom replace
+    replaceOptions: {
+      multiple: [
+        { search: '%HS_APP_VERSION%', replace: process.env.HS_APP_VERSION },
+        { search: '%HS_GIT_HASH%', replace: process.env.HS_GIT_HASH },
+        { search: '%HS_BUILD_DATE%', replace: process.env.HS_BUILD_DATE },
+        { search: '%HS_BUILD_NUMBER%', replace: process.env.HS_BUILD_NUMBER }
+      ]
+    },
+
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 

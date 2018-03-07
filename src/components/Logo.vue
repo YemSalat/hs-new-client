@@ -11,16 +11,34 @@
       }"
     >
     </span>
+    <span class="settings-link" @click="toggleSettigns()">настройки</span>
   </h1>
 </template>
 
 <script>
 export default {
-  name: 'Logo'
+  name: 'Logo',
+  methods: {
+    toggleSettigns () {
+      console.log('ASD', !this.$store.state.showSettingsPopup)
+      this.$store.commit('toggleSettingsPopup', !this.$store.state.showSettingsPopup)
+    }
+  }
 }
 </script>
 
 <style lang="scss">
+  .settings-link {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    color: #555;
+
+    &:hover {
+      border-bottom: 1px dashed;
+    }
+  }
+
   .logo-title {
     margin-top: 0;
     vertical-align: middle;

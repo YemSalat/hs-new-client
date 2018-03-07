@@ -215,6 +215,14 @@ img {
   text-align: right !important
 }
 
+.__bold {
+  font-weight: bold;
+}
+
+.__italic {
+  font-style: italic;
+}
+
 .__block {
   display: block
 }

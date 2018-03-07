@@ -1,0 +1,334 @@
+<template>
+  <div
+  :class="{
+    'popup': true,
+    'popup-settings': true,
+    '_visible': this.show
+  }"
+  >
+    <span class="close-popup" @click="close">&#xd7;</span>
+    <ul class="popup-tabs">
+      <li @click="openTab" data-tab="settings" :class="{ _active: this.tab === 'settings' }">Settings</li>
+      <li @click="openTab" data-tab="posts" :class="{ _active: this.tab === 'posts' }">Posts</li>
+      <li @click="openTab" data-tab="authors" :class="{ _active: this.tab === 'authors' }">Authors</li>
+      <li @click="openTab" data-tab="favorites" :class="{ _active: this.tab === 'favorites' }">Favorites</li>
+      <li @click="openTab" data-tab="about" :class="{ _active: this.tab === 'about' }">About</li>
+    </ul>
+    <div class="popup-content-wrapper">
+      <div
+        :class="{
+          'popup-content': true,
+          _active: this.tab === 'settings'
+        }"
+        data-tab="settings"
+      >
+        <label>
+          <span>Save filters on reload</span>
+          <input type="checkbox" v-model="saveFilters" />
+        </label>
+        <label>
+          <span>Display removed posts</span>
+          <input type="checkbox" />
+        </label>
+      </div>
+      <div
+        :class="{
+          'popup-content': true,
+          _active: this.tab === 'posts'
+        }"
+        data-tab="posts"
+      >
+        <p v-if="!settings.ignoredPosts.length">You have no ignored posts</p>
+        <ul v-else class="popup-list">
+          <li v-for="ignoredPost in settings.ignoredPosts" :key="ignoredPost.id">
+            <div class="popup-list-item-content">
+              <span
+                :title="ignoredPost.domain"
+                :class="{
+                  'post-logo': true,
+                  'habrahabr': ignoredPost.domain === 'habrahabr.ru',
+                  'geektimes': ignoredPost.domain === 'geektimes.ru'
+                }"
+              />
+              <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
+            </div>
+            <span class="list-remove-ignored" @click="removeIgnoredPost(ignoredPost)">remove</span>
+          </li>
+        </ul>
+      </div>
+      <div
+        :class="{
+          'popup-content': true,
+          _active: this.tab === 'authors'
+        }"
+        data-tab="authors"
+      >
+        <p v-if="!settings.ignoredAuthors.length">You have no ignored authors</p>
+        <ul v-else class="popup-list">
+          <li v-for="ignoredPost in settings.ignoredAuthors" :key="ignoredPost.author">
+            <div class="popup-list-item-content">
+              <span class="post-author icon icon-child __italic">
+                <a
+                  target="_blank"
+                  :title="ignoredPost.author"
+                  :href="'https://' + ignoredPost.domain + '/users/' + ignoredPost.author"
+                  rel="noopener"
+                >{{ ignoredPost.author }}</a>
+              </span> :
+              <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
+            </div>
+            <span class="list-remove-ignored" @click="removeIgnoredAuthor(ignoredPost)">remove</span>
+          </li>
+        </ul>
+      </div>
+      <div
+        :class="{
+          'popup-content': true,
+          _active: this.tab === 'favorites'
+        }"
+        data-tab="favorites"
+      >
+        f
+      </div>
+      <div
+        :class="{
+          'popup-content': true,
+          _active: this.tab === 'about'
+        }"
+        data-tab="about"
+      >
+        <p>
+          Парсит хабр и предоставляет интерфейс для сортировки постов
+        </p>
+        <p>
+          Habrascanner v%HS_APP_VERSION% : %HS_GIT_HASH% : 1873<br />
+          <span class="color-gray">Release date:</span> %HS_BUILD_DATE%
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'PopupSettings',
+  data () {
+    return {
+      tab: 'settings'
+    }
+  },
+  computed: {
+    show () {
+      return this.$store.state.showSettingsPopup
+    },
+    saveFilters: {
+      get () {
+        return this.$store.state.userSettings.saveFilters
+      },
+      set (val) {
+        console.log(val)
+        this.$store.commit('updateUserSetting', { set: 'saveFilters', val })
+      }
+    },
+    ...mapGetters(['settings', 'postUrl'])
+  },
+  methods: {
+    close () {
+      this.$store.commit('toggleSettingsPopup', false)
+    },
+    openTab (evt) {
+      this.tab = evt.target.dataset.tab
+    },
+    removeIgnoredPost (post) {
+      this.$store.commit('removeIgnoredPost', post)
+    },
+    removeIgnoredAuthor (post) {
+      this.$store.commit('removeIgnoredAuthor', post)
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.color-gray {
+  color: #555;
+}
+
+.close-popup {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  color: #777;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+.list-remove-ignored {
+  position: absolute;
+  right: 0;
+  z-index: 100;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.2s ease;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  padding: 2px 4px;
+  top: 7px;
+  color: #777;
+  min-width: 60px;
+  text-align: center;
+
+  &:hover {
+    color: #111;
+    border-color: #777;
+  }
+
+  li:hover > & {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.popup-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  & > li {
+    position: relative;
+
+    & > .popup-list-item-content {
+      padding: 8px 0;
+      white-space: nowrap;
+      max-width: 87%;
+      position: relative;
+      overflow: hidden;
+
+      & > .post-logo {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      & > a {
+        display: inline-block;
+        vertical-align: middle;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 48px;
+          height: 100%;
+          background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+        }
+      }
+    }
+
+    &:nth-child(even) {
+      // background-color: #f1f1f1;
+    }
+  }
+}
+
+.popup {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: top;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+  min-width: 700px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 24px;
+  transition: 0.25s ease;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  &._visible {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transform: translate(-50%, -45%);
+  }
+
+  .popup-tabs {
+    display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+
+    & > li {
+      display: inline-block;
+      margin-right: 12px;
+      color: #777;
+      cursor: pointer;
+      padding-bottom: 4px;
+
+      &:hover,
+      &._active {
+        color: #000;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  }
+
+  .popup-content-wrapper {
+    min-height: 200px;
+    position: relative;
+  }
+
+  .popup-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    transition: 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    height: 100%;
+    overflow-y: auto;
+
+    &._active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    & .post-logo {
+      margin-right: 12px;
+    }
+
+    & p {
+      margin: 0 0 12px;
+      line-height: 1.4;
+    }
+
+    & label {
+      display: block;
+
+      & > span {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 12px;
+      }
+      & > input {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+</style>

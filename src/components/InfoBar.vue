@@ -52,11 +52,12 @@ export default {
     },
     filteredPosts () {
       const ignoredPosts = this.$store.state.posts.filter(post => {
-        return this.$store.state.userSettings.ignoredPosts.indexOf(`${post.domain}_${post.id}`) > -1
+        return this.$store.state.userSettings.ignoredPosts
+          .filter(p => p.id === post.id && p.domain === post.domain).length > 0
       }).length
       const ignoredAuthors = this.$store.state.posts.filter(post => {
-        return (this.$store.state.userSettings.ignoredAuthors.indexOf(post.author) > -1 &&
-               this.$store.state.userSettings.ignoredPosts.indexOf(`${post.domain}_${post.id}`) < 0)
+        return this.$store.state.userSettings.ignoredAuthors
+          .filter(p => p.author === post.author).length > 0
       }).length
       return ignoredPosts + ignoredAuthors
     },

@@ -4,7 +4,8 @@ const allowedHash = {
   domain: ['habrahabr.ru', 'geektimes.ru'],
   date: ['day', 'twodays', 'week', 'month', 'since'],
   by: ['comments', 'views', 'rating', 'stars', 'date'],
-  order: ['asc', 'desc']
+  order: ['asc', 'desc'],
+  from: /[\d{4}-\d{2}-\d{2}]/
 }
 
 const STORAGE_PREFIX = '$hs_'
@@ -29,13 +30,20 @@ export default {
     Object.keys(allowedHash).forEach(param => {
       if (!filters[param]) return
       if (typeof filters[param] === 'string') {
-        if (allowedHash[param].indexOf(filters[param]) > -1) result[param] = filters[param]
+        if (allowedHash[param] instanceof RegExp) {
+          if (filters[param].match(allowedHash[param])) result[param] = filters[param]
+        } else if (allowedHash[param].indexOf(filters[param]) > -1) {
+          result[param] = filters[param]
+        }
       } else if (filters[param] instanceof Array) {
         result[param] = filters[param].filter(p => {
           return (allowedHash[param].indexOf(p) > -1)
         })
       }
     })
+    if (filters.keyword) {
+      result.keyword = filters.keyword
+    }
     if (Object.keys(result).length) {
       commit('updateFilters', result)
     }

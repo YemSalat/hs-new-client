@@ -23,6 +23,7 @@
         <p>Автор проекта - <a href="https://github.com/YemSalat">YemSalat</a></p>
       </div>
     </div>
+    <settings-popup />
   </div>
 </template>
 
@@ -31,6 +32,7 @@ import Logo from './components/Logo'
 import PostList from './components/PostList'
 import PostFilters from './components/PostFilters'
 import InfoBar from './components/InfoBar'
+import SettingsPopup from './components/SettingsPopup'
 
 export default {
   name: 'App',
@@ -38,7 +40,8 @@ export default {
     PostList,
     PostFilters,
     Logo,
-    InfoBar
+    InfoBar,
+    SettingsPopup
   },
   created () {
     window.onpopstate = evt => {
@@ -47,9 +50,11 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('loadInitialData')
-    this.$store.dispatch('loadData')
-    this.$store.dispatch('loadFiltersFromHash')
+    this.$nextTick(() => {
+      this.$store.dispatch('loadInitialData')
+      this.$store.dispatch('loadData')
+      this.$store.dispatch('loadFiltersFromHash')
+    })
 
     this.$el.classList.remove('_loading')
   },

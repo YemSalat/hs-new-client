@@ -1,11 +1,11 @@
 {
-  "name": "hs-new-client",
-  "version": "1.0.0",
-  "description": "A Vue.js project",
+  "name": "habrascanner",
+  "version": "0.9.1",
+  "description": "Habrascanner web client",
   "author": "Konstantin Levin <yem_salat@hotmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "HS_APP_VERSION=DEV webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
@@ -81,6 +81,7 @@
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",
+    "string-replace-loader": "^2.1.1",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",

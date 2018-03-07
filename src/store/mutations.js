@@ -2,25 +2,42 @@ import queryString from 'query-string'
 
 const STORAGE_PREFIX = '$hs_'
 
+function findPostByIdAndDomain (posts, id, domain) {
+  return posts.filter(p => {
+    return p.id === id && p.domain === domain
+  })[0] || null
+}
+
 export default {
+  updateUserSetting (state, setting) {
+    state.userSettings[setting.set] = setting.val
+    localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
+  },
   addIgnoredPost (state, post) {
     post.ignored = true
-    state.userSettings.ignoredPosts.push(`${post.domain}_${post.id}`)
+
+    let ignoredPost = { ...post }
+    delete ignoredPost.content
+    ignoredPost.ts = Date.now()
+
+    state.userSettings.ignoredPosts.push(ignoredPost)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   removeIgnoredPost (state, post) {
-    post.ignored = false
+    const actualPost = findPostByIdAndDomain(state.posts, post.id, post.domain)
+    if (actualPost) actualPost.ignored = false
+
     state.userSettings.ignoredPosts = state.userSettings.ignoredPosts
-      .filter(postDomainId => {
-        return postDomainId !== `${post.domain}_${post.id}`
+      .filter(ignoredPost => {
+        return ignoredPost.id !== post.id && ignoredPost.domain !== post.domain
       })
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   removeIgnoredAuthor (state, post) {
     state.userSettings.ignoredAuthors = state.userSettings.ignoredAuthors
-      .filter(author => {
+      .filter(ignoredAuthor => {
         post.ignoredAuthor = false
-        return author !== post.author
+        return ignoredAuthor.author !== post.author
       })
     state.posts = state.posts.map(p => {
       p.ignoredAuthor = false
@@ -34,7 +51,12 @@ export default {
         p.ignoredAuthor = true
       }
     })
-    state.userSettings.ignoredAuthors.push(post.author)
+
+    const ignoredAuthor = { ...post }
+    delete ignoredAuthor.content
+    ignoredAuthor.ts = Date.now()
+
+    state.userSettings.ignoredAuthors.push(ignoredAuthor)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   updatePosts (state, posts) {
@@ -73,5 +95,8 @@ export default {
     if (state.userSettings.saveFilters) {
       localStorage.setItem(`${STORAGE_PREFIX}filters`, JSON.stringify(state.selectedFilters))
     }
+  },
+  toggleSettingsPopup (state, show) {
+    state.showSettingsPopup = show
   }
 }
