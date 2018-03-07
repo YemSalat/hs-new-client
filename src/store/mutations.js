@@ -29,7 +29,7 @@ export default {
 
     state.userSettings.ignoredPosts = state.userSettings.ignoredPosts
       .filter(ignoredPost => {
-        return ignoredPost.id !== post.id && ignoredPost.domain !== post.domain
+        return !(ignoredPost.id === post.id && ignoredPost.domain === post.domain)
       })
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
@@ -61,6 +61,7 @@ export default {
   },
   updatePosts (state, posts) {
     state.posts = posts.map(p => {
+      // Additional props for post items:
       p.ignored = false
       p.ignoredAuthor = false
       return p
