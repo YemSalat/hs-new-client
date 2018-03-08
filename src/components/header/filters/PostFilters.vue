@@ -107,6 +107,7 @@
             @input="updateKeyword"
             name="keyword"
             type="text"
+            class="input-keyword"
             :value="keyword"
             placeholder="..."
           />
@@ -199,7 +200,6 @@ export default {
       },
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'keyword', val })
-        // this.$store.dispatch('scheduleLoadData')
       }
     },
     selectedFrom: {
@@ -209,7 +209,6 @@ export default {
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'date', val: 'since' })
         this.$store.commit('updateSelectedFilter', { filter: 'from', val })
-        // this.$store.dispatch('scheduleLoadData')
       }
     },
     selectedDate: {
@@ -218,7 +217,6 @@ export default {
       },
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'date', val })
-        // this.$store.dispatch('scheduleLoadData')
       }
     },
     selectedDomain: {
@@ -227,7 +225,6 @@ export default {
       },
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'domain', val })
-        // this.$store.dispatch('scheduleLoadData')
       }
     },
     selectedBy: {
@@ -236,7 +233,6 @@ export default {
       },
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'by', val })
-        // this.$store.dispatch('scheduleLoadData')
       }
     },
     selectedOrder: {
@@ -245,7 +241,6 @@ export default {
       },
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'order', val })
-        // this.$store.dispatch('scheduleLoadData')
       }
     }
   }
@@ -253,6 +248,12 @@ export default {
 </script>
 
 <style lang="scss">
+  .input-keyword {
+    [data-theme="dark"] & {
+      color: #e3e6e6;
+    }
+  }
+
   .from-input {
     background: transparent;
     border: none;
@@ -373,6 +374,7 @@ export default {
 
         [data-theme="dark"] & {
           background: #1a1c1d;
+          color: #f1f1f1;
         }
       }
     }

@@ -134,6 +134,11 @@ export default {
     &._sp {
       background: #fff;
       padding: 0 2px;
+
+      [data-theme="dark"] & {
+        background: #1a1c1d;
+        color: #f1f1f1;
+      }
     }
   }
 

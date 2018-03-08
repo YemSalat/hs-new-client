@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Logo from '@/components/Logo'
+import Logo from '@/components/header/Logo'
 
 describe('Logo.vue', () => {
   it('should render correct contents', () => {

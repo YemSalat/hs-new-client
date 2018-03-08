@@ -1,16 +1,7 @@
 <template>
   <div class="app _loading" data-version="%HS_APP_VERSION%">
     <div class="main">
-      <logo />
-
-      <section class="s-query">
-        <div class="c-query-bar">
-          <post-filters />
-        </div>
-        <div class="query-info-bar">
-          <info-bar />
-        </div>
-      </section>
+      <Header />
 
       <section class="s-result">
         <div class="c-result">
@@ -29,10 +20,8 @@
 </template>
 
 <script>
-import Logo from './components/Logo'
-import PostList from './components/PostList'
-import PostFilters from './components/PostFilters'
-import InfoBar from './components/InfoBar'
+import Header from './components/header/Header'
+import PostList from './components/posts/PostList'
 import SettingsPopup from './components/SettingsPopup'
 
 const STORAGE_PREFIX = '$hs_'
@@ -47,10 +36,8 @@ function getVersionValue (versionString) {
 export default {
   name: 'App',
   components: {
+    Header,
     PostList,
-    PostFilters,
-    Logo,
-    InfoBar,
     SettingsPopup
   },
   created () {
