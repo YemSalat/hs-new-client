@@ -414,6 +414,12 @@ body {
   color: #333;
   background: #f1f1f1;
   overflow-y: scroll;
+  transition: background-color 1s ease;
+}
+
+body[data-theme="dark"] {
+  color: #f7f7f7;
+  background: #26292b;
 }
 
 h1,
@@ -448,6 +454,11 @@ h1.logo-title>a {
   color: #555;
 }
 
+[data-theme="dark"] h1.logo-title>a {
+  color: #c2c7c7;
+
+}
+
 h1.logo-title>a::after {
   content: '';
   position: absolute;
@@ -475,6 +486,10 @@ h1.logo-title::before {
   z-index: -1;
   opacity: 0.1;
   transform: translate(-55%, -46%);
+}
+[data-theme="dark"] h1.logo-title::before {
+  opacity: 0.2;
+  filter: grayscale(100%);
 }
 
 h2 {

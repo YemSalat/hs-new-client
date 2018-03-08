@@ -164,6 +164,12 @@ export default {
     box-sizing: border-box;
     transition: 0.25s ease;
 
+    [data-theme="dark"] & {
+      color: #e4e9ea;
+      background-color: #2c3338;
+      border: 1px solid #212529;
+    }
+
     &._moved {
       background-color: #eff4f5;
       border: 1px solid #cbcbcb;
@@ -185,6 +191,11 @@ export default {
     &._ignored {
       background-color: #f7f5f1;
       border: 1px solid #e0e0e0;
+
+      [data-theme="dark"] & {
+        background-color: #374642;
+        border: 1px solid #1a3a2d;
+      }
 
       &::after {
         border-left-color: #e0e0e0;
@@ -228,11 +239,19 @@ export default {
     color: #7f8c8d;
     position: relative;
     clear: both;
+
+    [data-theme="dark"] & {
+      color: #b0b7b7;
+    }
   }
 
   .post-info-hubs {
     margin-bottom: 10px;
     color: #7f8c8d;
+
+    [data-theme="dark"] & {
+      color: #b0b7b7;
+    }
   }
 
   .post-info span {
@@ -281,9 +300,17 @@ export default {
 
     &.habrahabr {
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 72 72"><path fill="%23c7c7c7" d="M0 0h72v72h-72z"/><path fill="%23fff" d="M40 18v13h-10v-13h-7v31h7v-13h10v13h7v-31z"/></svg>');
+      [data-theme="dark"] & {
+        opacity: 1;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 72 72"><path fill="%239aa0a0" d="M0 0h72v72h-72z"/><path fill="%232d3338" d="M40 18v13h-10v-13h-7v31h7v-13h10v13h7v-31z"/></svg>');
+      }
     }
     &.geektimes {
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 72 72"><path xmlns="http://www.w3.org/2000/svg" fill="%23c7c7c7" d="M0 0h72v72h-72z"/><g fill="%23fff"><path d="M26 33h10v12.181c-2 .929-5.484 1.394-8.737 1.394-3.57 0-6.222-1.035-8.171-3.105-1.949-2.07-2.869-5.022-2.869-8.856 0-3.739 1.093-6.649 3.227-8.729s5.136-3.121 8.98-3.121c1.458 0 2.84.137 4.134.412 1.294.275 2.425.623 3.386 1.046l-1.979 4.911c-1.669-.824-3.5-1.236-5.497-1.236-1.827 0-3.239.594-4.237 1.782-.998 1.188-1.497 2.886-1.497 5.093 0 2.165.452 3.815 1.355 4.951s2.422 1.703 4.122 1.703c.929 0 1.784-.09 2.784-.269v-3.157h-5v-5zM51 46h-6v-18h-6v-5h18v5h-6v18z"/></g></svg>');
+      [data-theme="dark"] & {
+        opacity: 1;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 72 72"><path style="fill: #9aa0a0;" xmlns="http://www.w3.org/2000/svg" fill="%23c7c7c7" d="M0 0h72v72h-72z"/><g fill="%23fff"><path style="fill: #2d3338;" d="M26 33h10v12.181c-2 .929-5.484 1.394-8.737 1.394-3.57 0-6.222-1.035-8.171-3.105-1.949-2.07-2.869-5.022-2.869-8.856 0-3.739 1.093-6.649 3.227-8.729s5.136-3.121 8.98-3.121c1.458 0 2.84.137 4.134.412 1.294.275 2.425.623 3.386 1.046l-1.979 4.911c-1.669-.824-3.5-1.236-5.497-1.236-1.827 0-3.239.594-4.237 1.782-.998 1.188-1.497 2.886-1.497 5.093 0 2.165.452 3.815 1.355 4.951s2.422 1.703 4.122 1.703c.929 0 1.784-.09 2.784-.269v-3.157h-5v-5zM51 46h-6v-18h-6v-5h18v5h-6v18z"/></g></svg>');
+      }
     }
   }
 

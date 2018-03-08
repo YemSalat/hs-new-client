@@ -7,7 +7,7 @@
   }"
   >
     <span class="close-popup" @click="close">&#xd7;</span>
-    <ul class="popup-tabs">
+    <ul class="popup-tabs __unselectable">
       <li @click="openTab" data-tab="settings" :class="{ _active: this.tab === 'settings' }">
         Настройки
       </li>
@@ -24,7 +24,7 @@
         О программе
       </li>
     </ul>
-    <div class="popup-content-wrapper">
+    <div class="popup-content-wrapper __unselectable">
       <div
         :class="{
           'popup-content': true,
@@ -38,7 +38,11 @@
         </label>
         <label>
           <span>Показывать удаленные посты</span>
-          <input type="checkbox" />
+          <input type="checkbox" v-model="showRemovedPosts" />
+        </label>
+        <label>
+          <span>Dark theme</span>
+          <input type="checkbox" v-model="darkTheme" />
         </label>
         <label>
           <a class="setting" @click.prevent="clearPostCache">Очистить кэш постов</a>
@@ -140,11 +144,29 @@ export default {
     },
     saveFilters: {
       get () {
-        return this.$store.state.userSettings.saveFilters
+        return this.settings.saveFilters
       },
       set (val) {
         console.log(val)
         this.$store.commit('updateUserSetting', { set: 'saveFilters', val })
+      }
+    },
+    showRemovedPosts: {
+      get () {
+        return this.settings.showRemovedPosts
+      },
+      set (val) {
+        console.log(val)
+        this.$store.commit('updateUserSetting', { set: 'showRemovedPosts', val })
+      }
+    },
+    darkTheme: {
+      get () {
+        return this.$store.state.userSettings.darkTheme
+      },
+      set (val) {
+        this.$store.commit('updateUserSetting', { set: 'darkTheme', val })
+        this.$store.dispatch('setTheme')
       }
     },
     ...mapGetters(['settings', 'postUrl'])
@@ -276,6 +298,11 @@ export default {
   visibility: hidden;
   pointer-events: none;
 
+  [data-theme="dark"] & {
+    background: #40484e;
+    border: 1px solid #22252a;
+  }
+
   &._visible {
     pointer-events: auto;
     opacity: 1;
@@ -297,10 +324,18 @@ export default {
       cursor: pointer;
       padding-bottom: 4px;
 
+      [data-theme="dark"] & {
+        color: #b8bdbd;
+      }
+
       &:hover,
       &._active {
         color: #000;
         border-bottom: 1px solid #ccc;
+
+        [data-theme="dark"] & {
+          color: #def9f9;
+        }
       }
     }
   }
@@ -337,10 +372,10 @@ export default {
       position: relative;
 
       &::after {
-        content: 'done';
+        content: 'готово';
         color: #555;
         position: absolute;
-        right: -40px;
+        right: -58px;
         transition: 1.3s ease;
         opacity: 0;
       }

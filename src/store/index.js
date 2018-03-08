@@ -25,7 +25,9 @@ export const store = new Vuex.Store({
     userSettings: {
       ignoredAuthors: [],
       ignoredPosts: [],
-      saveFilters: false
+      saveFilters: false,
+      showRemovedPosts: true,
+      darkTheme: true
     },
     showIgnored: false,
     showSettingsPopup: false

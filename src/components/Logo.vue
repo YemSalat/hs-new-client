@@ -34,6 +34,10 @@ export default {
     cursor: pointer;
     color: #555;
 
+    [data-theme="dark"] & {
+      color: #a2a5a6;
+    }
+
     &:hover {
       border-bottom: 1px dashed;
     }

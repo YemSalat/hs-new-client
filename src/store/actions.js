@@ -11,9 +11,16 @@ const allowedHash = {
 const STORAGE_PREFIX = '$hs_'
 
 export default {
-  loadInitialData ({ state, commit }) {
+  setTheme ({ state }) {
+    const theme = state.userSettings.darkTheme ? 'dark' : 'regular'
+    document.body.dataset.theme = theme
+  },
+  loadInitialData ({ state, commit, dispatch }) {
     const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`) || 'null')
-    if (settings) commit('updateSettings', settings)
+    if (settings) {
+      commit('updateSettings', settings)
+      dispatch('setTheme')
+    }
     const posts = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}posts`) || 'null')
     if (posts) commit('updatePosts', posts)
     if (state.userSettings.saveFilters) {

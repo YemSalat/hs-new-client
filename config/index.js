@@ -58,7 +58,8 @@ module.exports = {
         { search: '%HS_APP_VERSION%', replace: process.env.HS_APP_VERSION },
         { search: '%HS_GIT_HASH%', replace: process.env.HS_GIT_HASH },
         { search: '%HS_BUILD_DATE%', replace: process.env.HS_BUILD_DATE },
-        { search: '%HS_BUILD_NUMBER%', replace: process.env.HS_BUILD_NUMBER }
+        { search: '%HS_BUILD_NUMBER%', replace: process.env.HS_BUILD_NUMBER },
+        { search: '%HS_GA_CODE%', replace: process.env.HS_GA_CODE }
       ]
     },
 

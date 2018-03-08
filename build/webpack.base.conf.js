@@ -42,6 +42,11 @@ module.exports = {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
+        test: /\.html$/,
+        loader: 'string-replace-loader',
+        options: config.build.replaceOptions
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig

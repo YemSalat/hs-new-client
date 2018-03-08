@@ -1,5 +1,5 @@
 <template>
-  <div class="app _loading">
+  <div class="app _loading" data-version="%HS_APP_VERSION%">
     <div class="main">
       <logo />
 
@@ -35,6 +35,15 @@ import PostFilters from './components/PostFilters'
 import InfoBar from './components/InfoBar'
 import SettingsPopup from './components/SettingsPopup'
 
+const STORAGE_PREFIX = '$hs_'
+
+function getVersionValue (versionString) {
+  return versionString.split('.')
+    .reverse()
+    .map(a => parseInt(a, 10))
+    .reduce((a, b, i) => a + b * Math.pow(10, i * i), 0)
+}
+
 export default {
   name: 'App',
   components: {
@@ -58,6 +67,13 @@ export default {
     })
 
     this.$el.classList.remove('_loading')
+    const appVersion = getVersionValue(this.$el.dataset.version)
+
+    const lastVersion = parseInt(localStorage.getItem(`${STORAGE_PREFIX}version`) || '0', 10)
+    if (appVersion > lastVersion) {
+      console.log('HS: App version was updated')
+    }
+    localStorage.setItem(`${STORAGE_PREFIX}version`, this.$el.dataset.version)
   },
   data () {
     return {

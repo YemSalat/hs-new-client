@@ -122,7 +122,12 @@ export default {
   .e-query-info-content {
     color: $light-gray;
     display: inline-block;
-    vertical-align: middle
+    vertical-align: middle;
+
+    [data-theme="dark"] & {
+      color: #a2a5a6;
+    }
+
   }
   .info-mark {
     border-bottom: 1px solid rgba(0,0,0, 0.1);

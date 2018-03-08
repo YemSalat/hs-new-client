@@ -270,6 +270,10 @@ export default {
     background: #fff;
     transition: 0.15s ease-out;
     pointer-events: none;
+
+    [data-theme="dark"] & {
+      background: #1a1c1d;
+    }
   }
 
   .query-row {
@@ -286,6 +290,10 @@ export default {
     border-radius: 8px;
     box-shadow: 0 2px 7px 0px rgba(0,0,0, .025) inset;
     overflow: hidden;
+
+    [data-theme="dark"] & {
+      border: 1px solid #555e65;
+    }
 
     &:last-child {
       margin-right: 0;
@@ -341,6 +349,10 @@ export default {
     cursor: pointer;
     white-space: nowrap;
 
+    [data-theme="dark"] & {
+      color: #e3e6e6;
+    }
+
     & > span {
       display: inline-block;
       vertical-align: middle;
@@ -354,6 +366,10 @@ export default {
         opacity: 1;
         color: #111;
         background-color: #fff;
+
+        [data-theme="dark"] & {
+          background: #1a1c1d;
+        }
       }
     }
 
