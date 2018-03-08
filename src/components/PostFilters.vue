@@ -259,7 +259,11 @@ export default {
     height: 20px;
     font-family: 'Ubuntu Light', 'Ubuntu', sans-serif;
     font-size: 14px;
-    vertical-align: baseline;
+    vertical-align: middle;
+
+    [data-theme="dark"] & {
+      color: #e3e6e6;
+    }
   }
 
   .back-drop-splash {

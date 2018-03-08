@@ -119,7 +119,7 @@
         </p>
         <p>
           Habrascanner v%HS_APP_VERSION% : %HS_GIT_HASH% : 1873<br />
-          <span class="color-gray">Release from</span> %HS_BUILD_DATE%
+          %HS_BUILD_DATE%
         </p>
       </div>
     </div>
@@ -272,6 +272,10 @@ export default {
           width: 48px;
           height: 100%;
           background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+
+          [data-theme="dark"] & {
+            background: linear-gradient(to right, #40484e 0%,#40484e 100%);
+          }
         }
       }
     }
@@ -378,6 +382,10 @@ export default {
         right: -58px;
         transition: 1.3s ease;
         opacity: 0;
+
+        [data-theme="dark"] & {
+          color: #e3e6e6;
+        }
       }
 
       &._done {
