@@ -105,7 +105,23 @@
         }"
         data-tab="favorites"
       >
-        f
+        <p v-if="!settings.favoritePosts.length">У вас нет закладок</p>
+        <ul v-else class="popup-list">
+          <li v-for="favoritePost in settings.favoritePosts" :key="favoritePost.id">
+            <div class="popup-list-item-content">
+              <span
+                :title="favoritePost.domain"
+                :class="{
+                  'post-logo': true,
+                  'habrahabr': favoritePost.domain === 'habrahabr.ru',
+                  'geektimes': favoritePost.domain === 'geektimes.ru'
+                }"
+              />
+              <a target="_blank" :title="favoritePost.author" :href="postUrl(favoritePost)" rel="noopener">{{ favoritePost.title }}</a>
+            </div>
+            <span class="list-remove-ignored" @click="removeFavoritePost(favoritePost)">удалить</span>
+          </li>
+        </ul>
       </div>
       <div
         :class="{
@@ -183,6 +199,9 @@ export default {
     },
     removeIgnoredAuthor (post) {
       this.$store.commit('removeIgnoredAuthor', post)
+    },
+    removeFavoritePost (post) {
+      this.$store.commit('removeFavoritePost', post)
     },
     clearPostCache (evt) {
       evt.target.classList.add('_done')

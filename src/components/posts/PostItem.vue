@@ -7,6 +7,16 @@
       '_moved': !!post.flag
     }"
   >
+    <span
+      :class="{
+        'post-favicon': true,
+        '_visible': post.favorite
+        }"
+      @click="unbookmarkPost(post)"
+    >
+      <!-- <svg aria-hidden="true" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z" class=""></path></svg> -->
+      <svg aria-hidden="true" data-prefix="fas" data-icon="bookmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="svg-inline--fa fa-bookmark fa-w-12 fa-2x"><path fill="currentColor" d="M0 512V48C0 21.49 21.49 0 48 0h288c26.51 0 48 21.49 48 48v464L192 400 0 512z" class=""></path></svg>
+    </span>
     <div
       v-if="post.image"
       class="post-image"
@@ -54,7 +64,8 @@
 
             <li v-if="!post.ignoredAuthor" title="Ignore author" @click="ignoreAuthor(post)">Заблокировать автора</li>
             <li v-else title="Unblock author" @click="unblockAuthor(post)">Разблокировать автора</li>
-            <li title="Save to favorites">Добавить в закладки</li>
+            <li v-if="!post.favorite" title="Save to favorites" @click="bookmarkPost(post)">Добавить в закладки</li>
+            <li v-else title="Remove favorites" @click="unbookmarkPost(post)">Удалить из закладок</li>
           </ul>
         </span>
       </div>
@@ -108,6 +119,12 @@ export default {
         document.removeEventListener('click', this.closeWhenOutside)
       }
     },
+    bookmarkPost (post) {
+      this.$store.commit('addFavoritePost', post)
+    },
+    unbookmarkPost (post) {
+      this.$store.commit('removeFavoritePost', post)
+    },
     ignorePost (post) {
       this.$store.commit('addIgnoredPost', post)
     },
@@ -154,6 +171,48 @@ export default {
 </script>
 
 <style lang="scss">
+  @keyframes duck {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+    70% {
+      transform: translateY(-3px);
+    }
+    85% {
+      transform: translateY(2px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .post-favicon {
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: -5px;
+    left: -10px;
+    z-index: 10;
+    transition: 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    cursor: pointer;
+
+    &._visible {
+      animation: duck 0.4s;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    & > svg > path {
+      fill: #e2cd66;
+    }
+  }
+
    .e-post {
     position: relative;
     color: #111;
@@ -173,6 +232,11 @@ export default {
     &._moved {
       background-color: #eff4f5;
       border: 1px solid #cbcbcb;
+
+    [data-theme="dark"] & {
+      background-color: #58474f;
+      border: 1px solid #57474f;
+    }
 
       &::after {
         content: '';

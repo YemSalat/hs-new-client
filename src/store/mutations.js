@@ -13,6 +13,26 @@ export default {
     state.userSettings[setting.set] = setting.val
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
+  addFavoritePost (state, post) {
+    post.favorite = true
+
+    let favoritePost = { ...post }
+    delete favoritePost.content
+    favoritePost.ts = Date.now()
+
+    state.userSettings.favoritePosts.push(favoritePost)
+    localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
+  },
+  removeFavoritePost (state, post) {
+    const actualPost = findPostByIdAndDomain(state.posts, post.id, post.domain)
+    if (actualPost) actualPost.favorite = false
+
+    state.userSettings.favoritePosts = state.userSettings.favoritePosts
+      .filter(favoritePost => {
+        return !(favoritePost.id === post.id && favoritePost.domain === post.domain)
+      })
+    localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
+  },
   addIgnoredPost (state, post) {
     post.ignored = true
 
@@ -62,6 +82,7 @@ export default {
   updatePosts (state, posts) {
     state.posts = posts.map(p => {
       // Additional props for post items:
+      p.favorite = false
       p.ignored = false
       p.ignoredAuthor = false
       return p
@@ -72,7 +93,7 @@ export default {
     state.selectedFilters = Object.assign(state.selectedFilters, filters)
   },
   updateSettings (state, settings) {
-    state.userSettings = settings
+    state.userSettings = Object.assign(state.userSettings, settings)
   },
   setError (state, errorText) {
     state.errorText = errorText

@@ -49,8 +49,8 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.$store.dispatch('loadInitialData')
-      this.$store.dispatch('loadData')
       this.$store.dispatch('loadFiltersFromHash')
+      this.$store.dispatch('loadData')
     })
 
     this.$el.classList.remove('_loading')
