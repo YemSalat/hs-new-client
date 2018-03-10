@@ -31,7 +31,8 @@ export const store = new Vuex.Store({
       darkTheme: true
     },
     showIgnored: false,
-    showSettingsPopup: false
+    showSettingsPopup: false,
+    lastVisit: Date.now()
   },
   getters: {
     allPosts: state => {

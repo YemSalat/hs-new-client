@@ -20,7 +20,6 @@ export default {
   name: 'Logo',
   methods: {
     toggleSettigns () {
-      console.log('ASD', !this.$store.state.showSettingsPopup)
       this.$store.commit('toggleSettingsPopup', !this.$store.state.showSettingsPopup)
     }
   }

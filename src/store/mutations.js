@@ -98,6 +98,10 @@ export default {
   setError (state, errorText) {
     state.errorText = errorText
   },
+  setLastVisit (state, timestamp) {
+    localStorage.setItem(`${STORAGE_PREFIX}visit`, Date.now())
+    state.lastVisit = timestamp
+  },
   setLoading (state, loading) {
     state.loading = loading
   },

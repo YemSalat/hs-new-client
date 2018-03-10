@@ -45,6 +45,12 @@
           <input type="checkbox" v-model="darkTheme" />
         </label>
         <label>
+          Текущие настройки:
+          <a class="setting" :download="settingsDownloadFileName" :href="`data:text/plain;charset=utf-8,${encodeURIComponent(encodedSettings)}`">сохранить</a>
+          <input id="importFile" type="file" style="display: none" @change.prevent="importSettings">
+          / <a class="setting" onclick="openFileDialog">загрузить</a>
+        </label>
+        <label>
           <a class="setting" @click.prevent="clearPostCache">Очистить кэш постов</a>
         </label>
       </div>
@@ -147,6 +153,8 @@ import { mapGetters } from 'vuex'
 
 const STORAGE_PREFIX = '$hs_'
 
+const reader = new FileReader()
+
 export default {
   name: 'PopupSettings',
   data () {
@@ -155,6 +163,12 @@ export default {
     }
   },
   computed: {
+    settingsDownloadFileName () {
+      return `HS-settings-${(new Date()).toDateString()}_${('' + Date.now()).slice(-2)}.json`
+    },
+    encodedSettings () {
+      return JSON.stringify(this.settings)
+    },
     show () {
       return this.$store.state.showSettingsPopup
     },
@@ -163,7 +177,6 @@ export default {
         return this.settings.saveFilters
       },
       set (val) {
-        console.log(val)
         this.$store.commit('updateUserSetting', { set: 'saveFilters', val })
       }
     },
@@ -172,13 +185,12 @@ export default {
         return this.settings.showRemovedPosts
       },
       set (val) {
-        console.log(val)
         this.$store.commit('updateUserSetting', { set: 'showRemovedPosts', val })
       }
     },
     darkTheme: {
       get () {
-        return this.$store.state.userSettings.darkTheme
+        return this.settings.darkTheme
       },
       set (val) {
         this.$store.commit('updateUserSetting', { set: 'darkTheme', val })
@@ -188,6 +200,20 @@ export default {
     ...mapGetters(['settings', 'postUrl'])
   },
   methods: {
+    openFileDialog () {
+      const importFile = document.getElementById('importFile')
+      if (importFile) importFile.click()
+    },
+    importSettings (evt) {
+      reader.onload = () => {
+        const text = reader.result
+        debugger
+        this.$store.commit('updateSettings', JSON.parse(text))
+        this.$store.dispatch('setTheme')
+      }
+
+      reader.readAsText(evt.target.files[0], 'utf-8')
+    },
     close () {
       this.$store.commit('toggleSettingsPopup', false)
     },

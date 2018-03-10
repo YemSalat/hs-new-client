@@ -68,6 +68,7 @@
             type="date"
             value="2017-01-01"
             class="from-input"
+            name="date-from"
           >
         </label>
       </div>

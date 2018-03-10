@@ -9,6 +9,7 @@ const allowedHash = {
 }
 
 const STORAGE_PREFIX = '$hs_'
+const MIN_DATE_FIELD_DIFF = 1000 * 60 * 60 * 24 * 2
 
 export default {
   setTheme ({ state }) {
@@ -16,16 +17,29 @@ export default {
     document.body.dataset.theme = theme
   },
   loadInitialData ({ state, commit, dispatch }) {
+    // load user settings
     const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`) || 'null')
     if (settings) {
       commit('updateSettings', settings)
       dispatch('setTheme')
     }
+    // load posts
     const posts = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}posts`) || 'null')
     if (posts) commit('updatePosts', posts)
+    // load filters
     if (state.userSettings.saveFilters) {
       const filters = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}filters`) || 'null')
       if (filters) commit('updateFilters', filters)
+    }
+    // load last visit date
+    let lastVisit = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}visit`) || 'null')
+    if (!lastVisit) lastVisit = Date.now()
+    commit('setLastVisit', parseInt(lastVisit, 10))
+    // load date from field
+    if (state.userSettings.saveFilters) return
+    if (Date.now() - state.lastVisit > MIN_DATE_FIELD_DIFF) {
+      const dateValue = (new Date(state.lastVisit)).toISOString().replace(/T[^$]+/, '')
+      commit('updateFilters', { date: 'since', from: dateValue })
     }
   },
   loadFiltersFromHash ({ commit }) {

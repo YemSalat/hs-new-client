@@ -8,6 +8,7 @@
     }"
   >
     <span
+      title="Удалить из закладок"
       :class="{
         'post-favicon': true,
         '_visible': post.favorite
@@ -201,6 +202,7 @@ export default {
     opacity: 0;
     visibility: hidden;
     cursor: pointer;
+    // animation: duck 0.4s reverse;
 
     &._visible {
       animation: duck 0.4s;

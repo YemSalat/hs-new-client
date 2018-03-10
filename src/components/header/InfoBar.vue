@@ -13,8 +13,8 @@
 
     <span v-if="filteredPosts" class="ignored-posts" @click="toggleIgnoredPosts()">
       :: скрыто {{ filteredPosts | postsAmount }}
-      <span v-if="showIgnored === true">убрать</span>
-      <span v-else>показать</span>
+      <span v-if="showIgnored === true">( убрать )</span>
+      <span v-else>( показать )</span>
     </span>
   </span>
 </template>
@@ -74,7 +74,6 @@ export default {
       if (this.$store.state.selectedFilters.date === 'since') {
         return 'от ' + this.$store.state.selectedFilters.from
       }
-
       return dictionary.date[this.$store.state.selectedFilters.date]
     },
     by () {
@@ -100,12 +99,13 @@ export default {
   },
   filters: {
     postsAmount (val) {
+      const lastDigit = parseInt(('' + val).slice(-1), 10)
       const postsAmount = parseInt(val, 10)
-      if (!postsAmount) {
+      if (!postsAmount || lastDigit === 0) {
         return `${postsAmount} постов`
-      } else if (postsAmount === 1) {
+      } else if (lastDigit === 1) {
         return `${postsAmount} пост`
-      } else if (postsAmount < 5) {
+      } else if (lastDigit < 5) {
         return `${postsAmount} поста`
       } else {
         return `${postsAmount} постов`
