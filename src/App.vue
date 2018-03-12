@@ -40,11 +40,24 @@ export default {
     PostList,
     SettingsPopup
   },
+  methods: {
+    updateTab () {
+      if (document.visibilityState === 'visible') {
+        const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`))
+        this.$store.commit('updateSettings', settings)
+        this.$store.dispatch('setTheme')
+      }
+    }
+  },
   created () {
     window.onpopstate = evt => {
       this.$store.dispatch('loadFiltersFromHash')
       this.$store.dispatch('scheduleLoadData')
     }
+    document.addEventListener('visibilitychange', this.updateTab)
+  },
+  beforeDestroy () {
+    window.removeEventListener('visibilitychange', this.updateTab)
   },
   mounted () {
     this.$nextTick(() => {
@@ -74,7 +87,7 @@ export default {
   @import 'assets/style.css';
 
   #app {
-    transition: 0.2s ease-out;
+    transition: 0.25s ease-out;
   }
 
   #app._loading {

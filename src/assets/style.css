@@ -330,6 +330,10 @@ img {
 .post-title>a {
   transition: 0.25s 0s ease;
 }
+[data-theme="dark"] a:hover,
+[data-theme="dark"] .icon-link-ext:hover {
+  color: #63b9f3;
+}
 
 /* Basic elements */
 

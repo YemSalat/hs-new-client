@@ -46,9 +46,10 @@
         </label>
         <label>
           Текущие настройки:
-          <a class="setting" :download="settingsDownloadFileName" :href="`data:text/plain;charset=utf-8,${encodeURIComponent(encodedSettings)}`">сохранить</a>
-          <input id="importFile" type="file" style="display: none" @change.prevent="importSettings">
-          / <a class="setting" onclick="openFileDialog">загрузить</a>
+          <a class="setting" :download="settingsDownloadFileName" :href="`data:text/plain;charset=utf-8,${encodeURIComponent(encodedSettings)}`">экспорт</a>
+          <input id="importFile" type="file" accept=".json" style="display: none" @change.prevent="importSettings">
+          &nbsp;/&nbsp;
+          <a class="setting" onclick="openFileDialog">импорт</a>
         </label>
         <label>
           <a class="setting" @click.prevent="clearPostCache">Очистить кэш постов</a>
@@ -419,6 +420,10 @@ export default {
       color: #3498db;
       cursor: pointer;
       position: relative;
+
+      [data-theme="dark"] & {
+        color: #63b9f3;
+      }
 
       &::after {
         content: 'готово';
