@@ -112,7 +112,7 @@
         }"
         data-tab="favorites"
       >
-        <p v-if="!settings.favoritePosts.length">У вас нет закладок</p>
+        <p v-if="!Object.keys(settings.favoritePosts).length">У вас нет закладок</p>
         <ul v-else class="popup-list">
           <li v-for="favoritePost in settings.favoritePosts" :key="favoritePost.id">
             <div class="popup-list-item-content">

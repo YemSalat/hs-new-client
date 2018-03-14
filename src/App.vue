@@ -1,5 +1,5 @@
 <template>
-  <div class="app _loading" data-version="%HS_APP_VERSION%">
+  <div class="app _loading" data-version="0.9.7">
     <div class="main">
       <Header />
 
@@ -52,7 +52,7 @@ export default {
   created () {
     window.onpopstate = evt => {
       this.$store.dispatch('loadFiltersFromHash')
-      this.$store.dispatch('scheduleLoadData')
+      this.$store.dispatch('scheduleLoadPosts')
     }
     document.addEventListener('visibilitychange', this.updateTab)
   },
@@ -63,13 +63,13 @@ export default {
     this.$nextTick(() => {
       this.$store.dispatch('loadInitialData')
       this.$store.dispatch('loadFiltersFromHash')
-      this.$store.dispatch('loadData')
+      this.$store.dispatch('loadPosts')
     })
 
     this.$el.classList.remove('_loading')
     const appVersion = getVersionValue(this.$el.dataset.version)
 
-    const lastVersion = parseInt(localStorage.getItem(`${STORAGE_PREFIX}version`) || '0', 10)
+    const lastVersion = getVersionValue(localStorage.getItem(`${STORAGE_PREFIX}version`) || '0')
     if (appVersion > lastVersion) {
       console.log('HS: App version was updated')
     }

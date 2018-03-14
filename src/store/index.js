@@ -25,7 +25,7 @@ export const store = new Vuex.Store({
     userSettings: {
       ignoredAuthors: [],
       ignoredPosts: [],
-      favoritePosts: [],
+      favoritePosts: {},
       saveFilters: false,
       showRemovedPosts: true,
       darkTheme: true
@@ -42,15 +42,13 @@ export const store = new Vuex.Store({
             .filter(p => p.id === post.id && p.domain === post.domain)
           const filteredAuthors = state.userSettings.ignoredAuthors
             .filter(p => p.author === post.author)
-          const filteredFavorites = state.userSettings.favoritePosts
-            .filter(p => p.id === post.id && p.domain === post.domain)
           if (filteredPosts.length) {
             post.ignored = true
             return state.showIgnored
           } else if (filteredAuthors.length) {
             post.ignoredAuthor = true
             return state.showIgnored
-          } else if (filteredFavorites.length) {
+          } else if (state.userSettings.favoritePosts[`${post.domain}_${post.id}`]) {
             post.favorite = true
           }
           return true

@@ -43,7 +43,7 @@ export default {
     }
   },
   loadFiltersFromHash ({ commit }) {
-    const filters = queryString.parse(location.hash)
+    const filters = queryString.parse(window.location.hash)
     if (typeof filters.domain === 'string') {
       filters.domain = [filters.domain]
     }
@@ -69,7 +69,7 @@ export default {
       commit('updateFilters', result)
     }
   },
-  loadData ({ state, commit }) {
+  loadPosts ({ state, commit }) {
     commit('setLoading', true)
     if (state.errorText) {
       commit('setError', null)
@@ -86,7 +86,7 @@ export default {
       .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(state.selectedFilters[k])}`)
       .join('&')
 
-    fetch(`/v1/posts?${params}`)
+    window.fetch(`/v1/posts?${params}`)
       .then(data => data.json().then(body => {
         commit('updatePosts', body.posts)
         commit('setLoading', false)
@@ -97,12 +97,12 @@ export default {
         commit('setError', 'что-то пошло не так 😢')
       })
   },
-  scheduleLoadData ({ state, dispatch, commit }) {
+  scheduleLoadPosts ({ state, dispatch, commit }) {
     commit('setLoading', true)
 
     clearTimeout(state.loadingTimer)
     state.loadingTimer = setTimeout(() => {
-      dispatch('loadData')
+      dispatch('loadPosts')
     }, 350)
   }
 }

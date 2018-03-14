@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import queryString from 'query-string'
 
 const STORAGE_PREFIX = '$hs_'
@@ -6,6 +7,10 @@ function findPostByIdAndDomain (posts, id, domain) {
   return posts.filter(p => {
     return p.id === id && p.domain === domain
   })[0] || null
+}
+
+function getPostUid (post) {
+  return `${post.domain}_${post.id}`
 }
 
 export default {
@@ -20,17 +25,16 @@ export default {
     delete favoritePost.content
     favoritePost.ts = Date.now()
 
-    state.userSettings.favoritePosts.push(favoritePost)
+    const postUid = getPostUid(post)
+    Vue.set(state.userSettings.favoritePosts, postUid, favoritePost)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   removeFavoritePost (state, post) {
     const actualPost = findPostByIdAndDomain(state.posts, post.id, post.domain)
     if (actualPost) actualPost.favorite = false
 
-    state.userSettings.favoritePosts = state.userSettings.favoritePosts
-      .filter(favoritePost => {
-        return !(favoritePost.id === post.id && favoritePost.domain === post.domain)
-      })
+    const postUid = getPostUid(post)
+    Vue.delete(state.userSettings.favoritePosts, postUid)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   addIgnoredPost (state, post) {
@@ -116,7 +120,7 @@ export default {
     if (hashFilters.date !== 'since') delete hashFilters.from
     if (!hashFilters.keyword || hashFilters.keyword.length < 3) delete hashFilters.keyword
 
-    location.hash = queryString.stringify(hashFilters)
+    window.location.hash = queryString.stringify(hashFilters)
 
     if (state.userSettings.saveFilters) {
       localStorage.setItem(`${STORAGE_PREFIX}filters`, JSON.stringify(state.selectedFilters))

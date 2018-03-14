@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '/v1': {
         target: 'http://new.habrascanner.com',
-        changeOrigin: true,
+        changeOrigin: true
         // pathRewrite: {
         //   '^/v1': ''
         // }
