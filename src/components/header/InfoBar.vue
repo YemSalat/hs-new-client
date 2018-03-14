@@ -134,10 +134,6 @@ export default {
     }
   }
 
-  .query-info-text {
-    // margin-right: 10px;
-  }
-
   .ignored-posts {
     cursor: pointer;
 

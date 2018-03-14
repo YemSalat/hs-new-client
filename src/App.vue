@@ -1,5 +1,5 @@
 <template>
-  <div class="app _loading" data-version="0.9.5">
+  <div class="app _loading" data-version="%HS_APP_VERSION%">
     <div class="main">
       <Header />
 
