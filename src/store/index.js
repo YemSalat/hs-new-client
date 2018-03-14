@@ -38,14 +38,10 @@ export const store = new Vuex.Store({
     allPosts: state => {
       return state.posts
         .filter(post => {
-          const filteredPosts = state.userSettings.ignoredPosts
-            .filter(p => p.id === post.id && p.domain === post.domain)
-          const filteredAuthors = state.userSettings.ignoredAuthors
-            .filter(p => p.author === post.author)
-          if (filteredPosts.length) {
+          if (state.userSettings.ignoredPosts[`${post.domain}_${post.id}`]) {
             post.ignored = true
             return state.showIgnored
-          } else if (filteredAuthors.length) {
+          } else if (state.userSettings.ignoredAuthors[`${post.author}`]) {
             post.ignoredAuthor = true
             return state.showIgnored
           } else if (state.userSettings.favoritePosts[`${post.domain}_${post.id}`]) {

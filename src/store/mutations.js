@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import queryString from 'query-string'
+import migrations from './migrations'
 
 const STORAGE_PREFIX = '$hs_'
 
@@ -44,29 +45,25 @@ export default {
     delete ignoredPost.content
     ignoredPost.ts = Date.now()
 
-    state.userSettings.ignoredPosts.push(ignoredPost)
+    const postUid = getPostUid(post)
+    Vue.set(state.userSettings.ignoredPosts, postUid, ignoredPost)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   removeIgnoredPost (state, post) {
     const actualPost = findPostByIdAndDomain(state.posts, post.id, post.domain)
     if (actualPost) actualPost.ignored = false
 
-    state.userSettings.ignoredPosts = state.userSettings.ignoredPosts
-      .filter(ignoredPost => {
-        return !(ignoredPost.id === post.id && ignoredPost.domain === post.domain)
-      })
+    const postUid = getPostUid(post)
+    Vue.delete(state.userSettings.ignoredPosts, postUid)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   removeIgnoredAuthor (state, post) {
-    state.userSettings.ignoredAuthors = state.userSettings.ignoredAuthors
-      .filter(ignoredAuthor => {
-        post.ignoredAuthor = false
-        return ignoredAuthor.author !== post.author
-      })
     state.posts = state.posts.map(p => {
       p.ignoredAuthor = false
       return p
     })
+
+    Vue.delete(state.userSettings.ignoredAuthors, post.author)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   addIgnoredAuthor (state, post) {
@@ -80,7 +77,7 @@ export default {
     delete ignoredAuthor.content
     ignoredAuthor.ts = Date.now()
 
-    state.userSettings.ignoredAuthors.push(ignoredAuthor)
+    Vue.set(state.userSettings.ignoredAuthors, post.author, ignoredAuthor)
     localStorage.setItem(`${STORAGE_PREFIX}settings`, JSON.stringify(state.userSettings))
   },
   updatePosts (state, posts) {
@@ -128,5 +125,14 @@ export default {
   },
   toggleSettingsPopup (state, show) {
     state.showSettingsPopup = show
+  },
+  migrateData (state, minVersion) {
+    // debugger
+    const minMigration = migrations.findIndex(m => m.version === minVersion)
+    if (minMigration < 0) return
+    const updateChain = migrations.slice(minMigration)
+    updateChain.forEach(update => {
+      update.up({ state })
+    })
   }
 }

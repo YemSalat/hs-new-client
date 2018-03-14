@@ -62,7 +62,7 @@
         }"
         data-tab="posts"
       >
-        <p v-if="!settings.ignoredPosts.length">У вас нет заблокированных постов</p>
+        <p v-if="!Object.keys(settings.ignoredPosts).length">У вас нет заблокированных постов</p>
         <ul v-else class="popup-list">
           <li v-for="ignoredPost in settings.ignoredPosts" :key="ignoredPost.id">
             <div class="popup-list-item-content">
@@ -87,7 +87,7 @@
         }"
         data-tab="authors"
       >
-        <p v-if="!settings.ignoredAuthors.length">У вас нет заблокированных авторов</p>
+        <p v-if="!Object.keys(settings.ignoredAuthors).length">У вас нет заблокированных авторов</p>
         <ul v-else class="popup-list">
           <li v-for="ignoredPost in settings.ignoredAuthors" :key="ignoredPost.author">
             <div class="popup-list-item-content">

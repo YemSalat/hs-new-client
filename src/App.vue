@@ -1,5 +1,5 @@
 <template>
-  <div class="app _loading" data-version="0.9.7">
+  <div class="app _loading" data-version="0.9.5">
     <div class="main">
       <Header />
 
@@ -70,8 +70,10 @@ export default {
     const appVersion = getVersionValue(this.$el.dataset.version)
 
     const lastVersion = getVersionValue(localStorage.getItem(`${STORAGE_PREFIX}version`) || '0')
+    // debugger
     if (appVersion > lastVersion) {
       console.log('HS: App version was updated')
+      this.$store.commit('migrateData', this.$el.dataset.version)
     }
     localStorage.setItem(`${STORAGE_PREFIX}version`, this.$el.dataset.version)
   },

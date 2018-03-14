@@ -51,18 +51,10 @@ export default {
       return this.$store.state.showIgnored
     },
     filteredPosts () {
-      const ignoredPosts = this.$store.state.posts.filter(post => {
-        return this.$store.state.userSettings.ignoredPosts
-          .filter(p => p.id === post.id && p.domain === post.domain).length > 0
-      }).length
-      const ignoredAuthors = this.$store.state.posts.filter(post => {
-        return this.$store.state.userSettings.ignoredAuthors
-          .filter(
-            p => p.author === post.author &&
-            this.$store.state.userSettings.ignoredPosts.filter(p => p.id === post.id).length === 0
-          ).length > 0
-      }).length
-      return ignoredPosts + ignoredAuthors
+      return this.$store.state.posts.reduce((val, post) => {
+        if (post.ignored || post.ignoredAuthor) val++
+        return val
+      }, 0)
     },
     errorText () {
       return this.$store.state.errorText
