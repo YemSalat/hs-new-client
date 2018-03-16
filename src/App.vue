@@ -64,6 +64,7 @@ export default {
       this.$store.dispatch('loadInitialData')
       this.$store.dispatch('loadFiltersFromHash')
       this.$store.dispatch('loadPosts')
+      this.$store.dispatch('setTheme')
     })
 
     this.$el.classList.remove('_loading')

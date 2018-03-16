@@ -21,7 +21,7 @@ function updatePostsToObject (postsArray, uidGenerator) {
 
 export default [
   {
-    version: '0.9.5',
+    version: '0.9.6',
     up ({ state }) {
       const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`) || 'null')
       if (!settings) return

@@ -8,30 +8,21 @@
   >
     <span class="close-popup" @click="close">&#xd7;</span>
     <ul class="popup-tabs __unselectable">
-      <li @click="openTab" data-tab="settings" :class="{ _active: this.tab === 'settings' }">
+      <li @click="openTab" data-tab="settings" class="_active">
         Настройки
       </li>
-      <li @click="openTab" data-tab="posts" :class="{ _active: this.tab === 'posts' }">
-        Посты
-      </li>
-      <li @click="openTab" data-tab="authors" :class="{ _active: this.tab === 'authors' }">
-        Авторы
-      </li>
-      <li @click="openTab" data-tab="favorites" :class="{ _active: this.tab === 'favorites' }">
+      <li @click="openTab" data-tab="favorites">
         Закладки
       </li>
-      <li @click="openTab" data-tab="about" :class="{ _active: this.tab === 'about' }">
+      <li @click="openTab" data-tab="blocked">
+        Заблокированные
+      </li>
+      <li @click="openTab" data-tab="about">
         О программе
       </li>
     </ul>
     <div class="popup-content-wrapper __unselectable">
-      <div
-        :class="{
-          'popup-content': true,
-          _active: this.tab === 'settings'
-        }"
-        data-tab="settings"
-      >
+      <div class="popup-content _active" data-tab="settings">
         <label>
           <span>Сохранять фильтры после закрытия</span>
           <input type="checkbox" v-model="saveFilters" />
@@ -55,63 +46,59 @@
           <a class="setting" @click.prevent="clearPostCache">Очистить кэш постов</a>
         </label>
       </div>
-      <div
-        :class="{
-          'popup-content': true,
-          _active: this.tab === 'posts'
-        }"
-        data-tab="posts"
-      >
-        <p v-if="!Object.keys(settings.ignoredPosts).length">У вас нет заблокированных постов</p>
-        <ul v-else class="popup-list">
-          <li v-for="ignoredPost in settings.ignoredPosts" :key="ignoredPost.id">
-            <div class="popup-list-item-content">
-              <span
-                :title="ignoredPost.domain"
-                :class="{
-                  'post-logo': true,
-                  'habrahabr': ignoredPost.domain === 'habrahabr.ru',
-                  'geektimes': ignoredPost.domain === 'geektimes.ru'
-                }"
-              />
-              <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
-            </div>
-            <span class="list-remove-ignored" @click="removeIgnoredPost(ignoredPost)">удалить</span>
-          </li>
-        </ul>
+      <div class="popup-content" data-tab="blocked">
+        <div class="subtab-list">
+          <ul>
+            <li @click="openTab" data-tab="posts" class="_active">
+              Посты
+            </li>
+            <li @click="openTab" data-tab="authors">
+              Авторы
+            </li>
+          </ul>
+        </div>
+        <div class="subcontent-list">
+          <div class="popup-content _active" data-tab="posts">
+            <p v-if="!Object.keys(settings.ignoredPosts).length">У вас нет заблокированных постов</p>
+            <ul v-else class="popup-list">
+              <li v-for="ignoredPost in settings.ignoredPosts" :key="ignoredPost.id">
+                <div class="popup-list-item-content">
+                  <span
+                    :title="ignoredPost.domain"
+                    :class="{
+                      'post-logo': true,
+                      'habrahabr': ignoredPost.domain === 'habrahabr.ru',
+                      'geektimes': ignoredPost.domain === 'geektimes.ru'
+                    }"
+                  />
+                  <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
+                </div>
+                <span class="list-remove-ignored" @click="removeIgnoredPost(ignoredPost)">удалить</span>
+              </li>
+            </ul>
+          </div>
+          <div class="popup-content" data-tab="authors">
+            <p v-if="!Object.keys(settings.ignoredAuthors).length">У вас нет заблокированных авторов</p>
+            <ul v-else class="popup-list">
+              <li v-for="ignoredPost in settings.ignoredAuthors" :key="ignoredPost.author">
+                <div class="popup-list-item-content">
+                  <span class="post-author icon icon-child __italic">
+                    <a
+                      target="_blank"
+                      :title="ignoredPost.author"
+                      :href="'https://' + ignoredPost.domain + '/users/' + ignoredPost.author"
+                      rel="noopener"
+                    >{{ ignoredPost.author }}</a>
+                  </span> :
+                  <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
+                </div>
+                <span class="list-remove-ignored" @click="removeIgnoredAuthor(ignoredPost)">удалить</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div
-        :class="{
-          'popup-content': true,
-          _active: this.tab === 'authors'
-        }"
-        data-tab="authors"
-      >
-        <p v-if="!Object.keys(settings.ignoredAuthors).length">У вас нет заблокированных авторов</p>
-        <ul v-else class="popup-list">
-          <li v-for="ignoredPost in settings.ignoredAuthors" :key="ignoredPost.author">
-            <div class="popup-list-item-content">
-              <span class="post-author icon icon-child __italic">
-                <a
-                  target="_blank"
-                  :title="ignoredPost.author"
-                  :href="'https://' + ignoredPost.domain + '/users/' + ignoredPost.author"
-                  rel="noopener"
-                >{{ ignoredPost.author }}</a>
-              </span> :
-              <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
-            </div>
-            <span class="list-remove-ignored" @click="removeIgnoredAuthor(ignoredPost)">удалить</span>
-          </li>
-        </ul>
-      </div>
-      <div
-        :class="{
-          'popup-content': true,
-          _active: this.tab === 'favorites'
-        }"
-        data-tab="favorites"
-      >
+      <div class="popup-content" data-tab="favorites">
         <p v-if="!Object.keys(settings.favoritePosts).length">У вас нет закладок</p>
         <ul v-else class="popup-list">
           <li v-for="favoritePost in settings.favoritePosts" :key="favoritePost.id">
@@ -130,13 +117,7 @@
           </li>
         </ul>
       </div>
-      <div
-        :class="{
-          'popup-content': true,
-          _active: this.tab === 'about'
-        }"
-        data-tab="about"
-      >
+      <div class="popup-content" data-tab="about">
         <p>
           Парсит хабр и предоставляет интерфейс для сортировки постов
         </p>
@@ -219,6 +200,15 @@ export default {
       this.$store.commit('toggleSettingsPopup', false)
     },
     openTab (evt) {
+      const contentEl = document.querySelector(`.popup-content[data-tab="${evt.target.dataset.tab}"]`)
+      Array.from(evt.target.parentNode.children).forEach(tab => {
+        tab.classList.remove('_active')
+      })
+      Array.from(contentEl.parentNode.children).forEach(tab => {
+        tab.classList.remove('_active')
+      })
+      evt.target.classList.add('_active')
+      contentEl.classList.add('_active')
       this.tab = evt.target.dataset.tab
     },
     removeIgnoredPost (post) {
@@ -240,8 +230,35 @@ export default {
 </script>
 
 <style lang="scss">
-.color-gray {
-  color: #555;
+.subcontent-list {
+  position: absolute;
+    top: 32px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.subtab-list {
+  & > ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    & > li {
+      margin-right: 12px;
+      padding: 2px 4px;
+      cursor: pointer;
+
+      &:hover,
+      &._active {
+        background-color: rgba(0,0,0, 0.05);
+
+        [data-theme="dark"] & {
+          background-color: rgba(255,255,255, 0.25);
+        }
+      }
+    }
+  }
 }
 
 .close-popup {
@@ -325,10 +342,6 @@ export default {
         }
       }
     }
-
-    &:nth-child(even) {
-      // background-color: #f1f1f1;
-    }
   }
 }
 
@@ -406,8 +419,10 @@ export default {
     visibility: hidden;
     height: 100%;
     overflow-y: auto;
+    z-index: 0;
 
     &._active {
+      z-index: 1;
       opacity: 1;
       visibility: visible;
     }

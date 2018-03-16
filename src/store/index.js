@@ -23,8 +23,8 @@ export const store = new Vuex.Store({
     loadingTimer: null,
     errorText: null,
     userSettings: {
-      ignoredAuthors: [],
-      ignoredPosts: [],
+      ignoredAuthors: {},
+      ignoredPosts: {},
       favoritePosts: {},
       saveFilters: false,
       showRemovedPosts: true,
