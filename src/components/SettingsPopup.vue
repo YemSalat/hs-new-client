@@ -189,7 +189,6 @@ export default {
     importSettings (evt) {
       reader.onload = () => {
         const text = reader.result
-        debugger
         this.$store.commit('updateSettings', JSON.parse(text))
         this.$store.dispatch('setTheme')
       }
