@@ -18,12 +18,16 @@
       <!-- <svg aria-hidden="true" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z" class=""></path></svg> -->
       <svg aria-hidden="true" data-prefix="fas" data-icon="bookmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="svg-inline--fa fa-bookmark fa-w-12 fa-2x"><path fill="currentColor" d="M0 512V48C0 21.49 21.49 0 48 0h288c26.51 0 48 21.49 48 48v464L192 400 0 512z" class=""></path></svg>
     </span>
-    <div
-      v-if="post.image"
-      class="post-image"
-      :style="'background-image: url('+ post.image +')'"
-    >
-      <a target="_blank" :href="postUrl(post)" rel="noopener">&nbsp;</a>
+    <div v-if="post.image" class="post-image" >
+      <a
+        target="_blank"
+        :href="postUrl(post)"
+        :class="{ '_visible': showPostImage }"
+        :style="showPostImage ? 'background-image: url('+ post.image +')' : ''"
+        rel="noopener"
+      >
+        &nbsp;
+      </a>
     </div>
     <h3 class="post-title">
       <a :href="postUrl(post)" rel="noopener">{{ post.title }}</a>
@@ -96,13 +100,19 @@ export default {
   name: 'PostItem',
   data () {
     return {
-      menuOpen: false
+      menuOpen: false,
+      showPostImage: false
     }
   },
   props: {
     post: { type: Object, required: true }
   },
   methods: {
+    loadPostImage () {
+      const img = new Image()
+      img.onload = () => { this.showPostImage = true }
+      img.src = this.post.image
+    },
     closeWhenOutside (evt) {
       if (evt.target.parentNode.className !== 'popup-menu') {
         this.menuOpen = false
@@ -224,6 +234,7 @@ export default {
     margin-bottom: 30px;
     box-sizing: border-box;
     transition: 0.25s ease;
+    will-change: transform;
 
     [data-theme="dark"] & {
       color: #e4e9ea;
@@ -286,8 +297,6 @@ export default {
     height: 120px;
     float: right;
     margin-left: 20px;
-    background-size: cover;
-    background-position: center;
     background-color: #eee;
     margin-top: 10px;
     position: relative;
@@ -298,6 +307,16 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: 0.75s ease;
+      opacity: 0;
+      visibility: hidden;
+
+      &._visible {
+        opacity: 1;
+        visibility: visible;
+      }
     }
   }
 

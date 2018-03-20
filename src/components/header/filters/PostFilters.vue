@@ -149,7 +149,7 @@ export default {
   },
   data () {
     return {
-      keywordInputDelay: 700,
+      keywordInputDelay: 900,
       keywordTimer: -1,
       filters: {
         by: [

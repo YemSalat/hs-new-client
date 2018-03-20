@@ -9,7 +9,7 @@
     Ничего не найдено 😢
   </div>
   <transition-group tag="div" name="post-list">
-    <post-item v-for="post in allPosts" :key="post.id" :post="post" />
+    <post-item v-for="post in allPosts" :key="post.id" :post="post" ref="posts" />
   </transition-group>
   </div>
 </template>
@@ -23,12 +23,57 @@ export default {
   components: {
     PostItem
   },
+  data () {
+    return {
+      postImagesTimer: -1,
+      postImagesDelay: 250,
+      postImagesEvents: ['scroll', 'resize']
+    }
+  },
+  methods: {
+    loadVisiblePostImages () {
+      clearTimeout(this.postImagesTimer)
+      this.postImagesTimer = setTimeout(() => {
+        this.$refs.posts.forEach(post => {
+          const el = post.$el
+          if (elementIsInViewport(el)) {
+            post.loadPostImage()
+          }
+        })
+      }, this.postImagesDelay)
+    }
+  },
   computed: {
     posts () {
       return this.$store.state.posts
     },
     ...mapGetters(['allPosts'])
+  },
+  mounted () {
+    this.postImagesEvents.forEach(event => {
+      window.addEventListener(event, this.loadVisiblePostImages)
+    })
+  },
+  beforeDestroy () {
+    this.postImagesEvents.forEach(event => {
+      window.removeEventListener(event, this.loadVisiblePostImages)
+    })
+  },
+  updated () {
+    this.$nextTick(() => {
+      this.loadVisiblePostImages()
+    })
   }
+}
+
+function elementIsInViewport (el) {
+  const rect = el.getBoundingClientRect()
+  const wHeight = window.innerHeight
+
+  return (
+    (rect.top >= 0 && rect.top <= wHeight) ||
+    (rect.bottom >= 0 && rect.bottom <= wHeight)
+  )
 }
 </script>
 
