@@ -146,7 +146,7 @@ export default {
   },
   computed: {
     settingsDownloadFileName () {
-      return `HS-settings-${(new Date()).toDateString()}_${('' + Date.now()).slice(-2)}.json`
+      return `HS Settings - ${(new Date()).toDateString()}.json`
     },
     encodedSettings () {
       return JSON.stringify(this.settings)

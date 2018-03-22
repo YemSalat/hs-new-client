@@ -234,7 +234,7 @@ export default {
     margin-bottom: 30px;
     box-sizing: border-box;
     transition: 0.25s ease;
-    will-change: transform;
+    // will-change: transform;
 
     [data-theme="dark"] & {
       color: #e4e9ea;
@@ -300,6 +300,10 @@ export default {
     background-color: #eee;
     margin-top: 10px;
     position: relative;
+
+    [data-theme="dark"] & {
+      background-color: #212529;
+    }
 
     & > a {
       position: absolute;

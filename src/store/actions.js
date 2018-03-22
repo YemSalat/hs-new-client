@@ -18,21 +18,21 @@ export default {
   },
   loadInitialData ({ state, commit, dispatch }) {
     // load user settings
-    const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`) || 'null')
+    const settings = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}settings`))
     if (settings) {
       commit('updateSettings', settings)
       dispatch('setTheme')
     }
     // load posts
-    const posts = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}posts`) || 'null')
+    const posts = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}posts`))
     if (posts) commit('updatePosts', posts)
     // load filters
     if (state.userSettings.saveFilters) {
-      const filters = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}filters`) || 'null')
+      const filters = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}filters`))
       if (filters) commit('updateFilters', filters)
     }
     // load last visit date
-    let lastVisit = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}visit`) || 'null')
+    let lastVisit = JSON.parse(localStorage.getItem(`${STORAGE_PREFIX}visit`))
     if (!lastVisit) lastVisit = Date.now()
     commit('setLastVisit', parseInt(lastVisit, 10))
     // load date from field
