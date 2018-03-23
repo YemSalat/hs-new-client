@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
       favoritePosts: {},
       saveFilters: false,
       showRemovedPosts: true,
-      darkTheme: true
+      darkTheme: false
     },
     showIgnored: false,
     showSettingsPopup: false,
