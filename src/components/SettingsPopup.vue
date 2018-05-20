@@ -67,8 +67,8 @@
                     :title="ignoredPost.domain"
                     :class="{
                       'post-logo': true,
-                      'habrahabr': ignoredPost.domain === 'habrahabr.ru',
-                      'geektimes': ignoredPost.domain === 'geektimes.ru'
+                      'habrahabr': ignoredPost.domain === 'habr.com',
+                      'geektimes': ignoredPost.domain === 'geektimes.com'
                     }"
                   />
                   <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
@@ -107,8 +107,8 @@
                 :title="favoritePost.domain"
                 :class="{
                   'post-logo': true,
-                  'habrahabr': favoritePost.domain === 'habrahabr.ru',
-                  'geektimes': favoritePost.domain === 'geektimes.ru'
+                  'habrahabr': favoritePost.domain === 'habr.com',
+                  'geektimes': favoritePost.domain === 'geektimes.com'
                 }"
               />
               <a target="_blank" :title="favoritePost.author" :href="postUrl(favoritePost)" rel="noopener">{{ favoritePost.title }}</a>

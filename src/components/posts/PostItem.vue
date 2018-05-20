@@ -41,8 +41,8 @@
         :title="post.domain"
         :class="{
           'post-logo': true,
-          'habrahabr': post.domain === 'habrahabr.ru',
-          'geektimes': post.domain === 'geektimes.ru'
+          'habrahabr': post.domain === 'habr.com',
+          'geektimes': post.domain === 'geektimes.com'
           }"
       />
       <span class="post-comments icon icon-comment-empty">

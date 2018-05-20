@@ -13,7 +13,7 @@ export const store = new Vuex.Store({
     posts: [],
     selectedFilters: {
       date: 'twodays',
-      domain: ['habrahabr.ru', 'geektimes.ru'],
+      domain: ['habr.com', 'geektimes.com'],
       by: 'comments',
       order: 'desc',
       from: '2017-01-01',
@@ -55,7 +55,7 @@ export const store = new Vuex.Store({
       return post => {
         const { id, flag, domain, url } = post
         if (flag === 1) {
-          return `https://sohabr.net/${domain === 'habrahabr.ru' ? 'habr' : 'gt'}/post/${id}`
+          return `https://sohabr.net/${domain === 'habr.com' ? 'habr' : 'gt'}/post/${id}`
         }
         return url
       }

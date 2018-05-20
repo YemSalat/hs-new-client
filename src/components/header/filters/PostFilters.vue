@@ -166,8 +166,8 @@ export default {
           { label: 'месяц', val: 'month' }
         ],
         domain: [
-          { label: 'habrahabr', val: 'habrahabr.ru' },
-          { label: 'geektimes', val: 'geektimes.ru' }
+          { label: 'habrahabr', val: 'habr.com' },
+          { label: 'geektimes', val: 'geektimes.com' }
         ],
         order: [
           { val: 'desc' },

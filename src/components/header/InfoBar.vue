@@ -39,8 +39,8 @@ const dictionary = {
     month: 'за месяц'
   },
   domain: {
-    'geektimes.ru': 'с geektimes',
-    'habrahabr.ru': 'с хабра'
+    'geektimes.com': 'с geektimes',
+    'habr.com': 'с хабра'
   }
 }
 

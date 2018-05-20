@@ -1,7 +1,7 @@
 import queryString from 'query-string'
 
 const allowedHash = {
-  domain: ['habrahabr.ru', 'geektimes.ru'],
+  domain: ['habr.com', 'geektimes.com'],
   date: ['day', 'twodays', 'week', 'month', 'since'],
   by: ['comments', 'views', 'rating', 'stars', 'date'],
   order: ['asc', 'desc'],
