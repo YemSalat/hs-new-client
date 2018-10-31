@@ -61,7 +61,9 @@ export default {
   },
   updated () {
     this.$nextTick(() => {
-      this.loadVisiblePostImages()
+      setTimeout(() => {
+        this.loadVisiblePostImages()
+      }, this.postImagesDelay)
     })
   }
 }

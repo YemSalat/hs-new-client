@@ -37,14 +37,6 @@
       <span class="info-hubs-content">{{ post.hubs }}</span>
     </div>
     <div class="post-info">
-      <span
-        :title="post.domain"
-        :class="{
-          'post-logo': true,
-          'habrahabr': post.domain === 'habr.com',
-          'geektimes': post.domain === 'geektimes.com'
-          }"
-      />
       <span class="post-comments icon icon-comment-empty">
         <a :href="postUrl(post) + '#comments'" rel="noopener">{{ post.comments }}</a>
       </span>
@@ -288,7 +280,7 @@ export default {
   }
 
   .post-content {
-    margin: 10px 0 15px;
+    margin: 10px 0 14px;
     line-height: 1.4;
   }
 
@@ -335,7 +327,7 @@ export default {
   }
 
   .post-info-hubs {
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     color: #7f8c8d;
 
     [data-theme="dark"] & {

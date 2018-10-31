@@ -1,32 +1,48 @@
 <template>
   <div class="query-container">
     <div class="query-row __unselectable">
-      <div class="query-item query-item_domain">
+      <div class="query-item query-item_by back-drop">
+        <BackDrop group="by" />
         <label
-          v-for="filter in filters.domain"
-          :key="filter.label"
+          v-for="filter in filters.by"
+          :key="filter.val"
           :class="{
             'query-item-box': true,
-            'marked': true,
-            '_active': $store.state.selectedFilters.domain.indexOf(filter.val) > -1
+            '_active': filter.val === $store.state.selectedFilters.by
           }"
         >
           <input
-            v-model="selectedDomain"
-            name="domain"
-            type="checkbox"
+            v-model="selectedBy"
+            name="by"
+            type="radio"
             :value="filter.val"
-            :checked="$store.state.selectedFilters.domain.indexOf(filter.val) > -1"
+            :checked="filter.val === $store.state.selectedFilters.by"
           />
-          <span
-            :class="{
-              'post-logo': true,
-              'habrahabr': filter.label === 'habrahabr',
-              'geektimes': filter.label === 'geektimes'
-            }"
-          />
+          <span :class="[ 'icon', filter.val]" />
         </label>
       </div>
+
+      <div class="query-item query-item_order back-drop">
+        <BackDrop group="order" />
+        <label
+          v-for="filter in filters.order"
+          :key="filter.val"
+          :class="{
+            'query-item-box': true,
+            '_active': filter.val === $store.state.selectedFilters.order
+          }"
+        >
+          <input
+            v-model="selectedOrder"
+            name="order"
+            type="radio"
+            :value="filter.val"
+            :checked="filter.val === $store.state.selectedFilters.order"
+          />
+          <span :class="[ 'icon', filter.val]" />
+        </label>
+      </div>
+
       <div class="query-item query-item_date back-drop">
         <BackDrop group="date" />
         <label
@@ -72,30 +88,8 @@
           >
         </label>
       </div>
-    </div>
-    <div class="query-row __unselectable">
-      <div class="query-item query-item_by back-drop">
-        <BackDrop group="by" />
-        <label
-          v-for="filter in filters.by"
-          :key="filter.val"
-          :class="{
-            'query-item-box': true,
-            '_active': filter.val === $store.state.selectedFilters.by
-          }"
-        >
-          <input
-            v-model="selectedBy"
-            name="by"
-            type="radio"
-            :value="filter.val"
-            :checked="filter.val === $store.state.selectedFilters.by"
-          />
-          <span :class="[ 'icon', filter.val]" />
-        </label>
-      </div>
 
-      <div class="query-item query-keyword">
+      <!-- <div class="query-item query-keyword">
         <label
           :class="{
             'query-item-box': true,
@@ -113,28 +107,7 @@
             placeholder="..."
           />
         </label>
-      </div>
-
-      <div class="query-item query-item_order back-drop">
-        <BackDrop group="order" />
-        <label
-          v-for="filter in filters.order"
-          :key="filter.val"
-          :class="{
-            'query-item-box': true,
-            '_active': filter.val === $store.state.selectedFilters.order
-          }"
-        >
-          <input
-            v-model="selectedOrder"
-            name="order"
-            type="radio"
-            :value="filter.val"
-            :checked="filter.val === $store.state.selectedFilters.order"
-          />
-          <span :class="[ 'icon', filter.val]" />
-        </label>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -164,10 +137,6 @@ export default {
           { label: 'двое суток', val: 'twodays' },
           { label: 'неделя', val: 'week' },
           { label: 'месяц', val: 'month' }
-        ],
-        domain: [
-          { label: 'habrahabr', val: 'habr.com' },
-          { label: 'geektimes', val: 'geektimes.com' }
         ],
         order: [
           { val: 'desc' },
@@ -218,14 +187,6 @@ export default {
       },
       set (val) {
         this.$store.commit('updateSelectedFilter', { filter: 'date', val })
-      }
-    },
-    selectedDomain: {
-      get () {
-        return this.$store.state.selectedFilters.domain
-      },
-      set (val) {
-        this.$store.commit('updateSelectedFilter', { filter: 'domain', val })
       }
     },
     selectedBy: {
@@ -289,7 +250,7 @@ export default {
   .query-item {
     position: relative;
     font-size: 16px;
-    display: inline-block;
+    display: inline-flex;
     margin-right: 24px;
     background: rgba(0,0,0, 0.025);
     border: 1px solid #e0e0e0;
@@ -346,7 +307,7 @@ export default {
     color: #1f1f1f;
     background-color: transparent;
     padding: 0;
-    display: inline-block;
+    display: flex;
     box-sizing: border-box;
     text-align: center;
     vertical-align: middle;
@@ -354,6 +315,8 @@ export default {
     padding: 0 12px;
     cursor: pointer;
     white-space: nowrap;
+    align-items: center;
+    height: 34px;
 
     [data-theme="dark"] & {
       color: #e3e6e6;
@@ -411,9 +374,10 @@ export default {
 
   input[type="radio"],
   input[type="checkbox"] {
-    cursor: pointer;
-    margin: 0 3px 0 0;
-    padding: 0;
-    height: 32px;
+    // cursor: pointer;
+    // margin: 0 3px 0 0;
+    // padding: 0;
+    // height: 32px;
+    display: none;
   }
 </style>

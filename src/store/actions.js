@@ -1,13 +1,13 @@
 import queryString from 'query-string'
 
 const allowedHash = {
-  domain: ['habr.com', 'geektimes.com'],
   date: ['day', 'twodays', 'week', 'month', 'since'],
   by: ['comments', 'views', 'rating', 'stars', 'date'],
   order: ['asc', 'desc'],
   from: /[\d{4}-\d{2}-\d{2}]/
 }
 
+const LOAD_POSTS_DELAY = 500
 const STORAGE_PREFIX = '$hs_'
 const MIN_DATE_FIELD_DIFF = 1000 * 60 * 60 * 24 * 2
 
@@ -103,6 +103,6 @@ export default {
     clearTimeout(state.loadingTimer)
     state.loadingTimer = setTimeout(() => {
       dispatch('loadPosts')
-    }, 350)
+    }, LOAD_POSTS_DELAY)
   }
 }

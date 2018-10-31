@@ -12,11 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/v1': {
-        target: 'http://new.habrascanner.com',
-        changeOrigin: true
-        // pathRewrite: {
-        //   '^/v1': ''
-        // }
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/v1': ''
+        }
       }
     },
 

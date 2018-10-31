@@ -77,11 +77,6 @@ export default {
       this.$store.commit('migrateData', this.$el.dataset.version)
     }
     localStorage.setItem(`${STORAGE_PREFIX}version`, this.$el.dataset.version)
-  },
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
   }
 }
 </script>
