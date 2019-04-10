@@ -335,6 +335,10 @@ export default {
     [data-theme="dark"] & {
       color: #b0b7b7;
     }
+
+    @media screen and (max-width: 768px) {
+      margin-right: 8px;
+    }
   }
 
   .post-info-hubs {
