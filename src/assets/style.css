@@ -413,7 +413,6 @@ input[type="submit"]:active,
 /* Start */
 
 body {
-  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; */
   font-family: 'Ubuntu Light', 'Ubuntu', sans-serif;
   font-size: 16px;
   color: #333;
@@ -706,5 +705,8 @@ body {
   }
   h1.logo-title::before {
     transform: translate(-41%, -47%);
+  }
+  body, .post-content {
+    font-weight: normal;
   }
 }

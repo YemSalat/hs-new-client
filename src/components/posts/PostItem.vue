@@ -277,8 +277,11 @@ export default {
   .post-title {
     margin-top: 5px;
     margin-bottom: 5px;
-    font-weight: lighter;
     line-height: 1.2;
+    font-weight: lighter;
+    @media screen and (max-width: 768px) {
+      font-weight: normal;
+    }
   }
 
   .post-content {

@@ -329,6 +329,7 @@ export default {
 }
 
 .popup {
+  z-index: 100;
   position: fixed;
   top: 35%;
   left: 50%;
