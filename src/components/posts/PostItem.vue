@@ -280,7 +280,7 @@ export default {
     line-height: 1.2;
     font-weight: lighter;
     @media screen and (max-width: 768px) {
-      font-weight: normal;
+      font-weight: 300;
     }
   }
 

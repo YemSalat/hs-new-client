@@ -707,6 +707,6 @@ body {
     transform: translate(-41%, -47%);
   }
   body, .post-content {
-    font-weight: normal;
+    font-weight: 300;
   }
 }
