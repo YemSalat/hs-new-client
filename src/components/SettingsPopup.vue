@@ -38,7 +38,7 @@
         <span class="label">
           <span>Язык</span>
           <label class="inner-label">русский <input type="radio" value="0" v-model="language" /></label>
-          <label class="inner-label">английский <input type="radio" value="1" v-model="language" /></label>
+          <label class="inner-label">english <input type="radio" value="1" v-model="language" /></label>
           <label class="inner-label">оба <input type="radio" value="3" v-model="language" /></label>
         </span>
         <label class="label">

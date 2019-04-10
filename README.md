@@ -1,5 +1,7 @@
 # hs-new-client
 
+frontend for http://hbrscnr.club
+
 > A Vue.js project
 
 ## Build Setup
