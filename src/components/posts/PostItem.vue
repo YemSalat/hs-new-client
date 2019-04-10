@@ -48,7 +48,7 @@
         <a :href="'https://habr.com/users/' + post.author" rel="noopener">{{ post.author }}</a>
       </span>
       <span class="post-info-flags">{{ this.postFlags }}</span>
-      <div class="post-controls">
+      <div class="post-controls __unselectable">
         <!-- <span title="Open in new tab" class="post-ct icon icon-link-ext el-opennewtab" onclick="_openInNewTab(event, '')"></span> -->
         <span
           title="Settings"
