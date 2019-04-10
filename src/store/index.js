@@ -13,7 +13,6 @@ export const store = new Vuex.Store({
     posts: [],
     selectedFilters: {
       date: 'twodays',
-      domain: ['habr.com', 'geektimes.com'],
       by: 'comments',
       order: 'desc',
       from: '2017-01-01',

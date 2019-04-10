@@ -89,7 +89,7 @@
         </label>
       </div>
 
-      <!-- <div class="query-item query-keyword">
+      <div class="query-item query-keyword">
         <label
           :class="{
             'query-item-box': true,
@@ -107,7 +107,7 @@
             placeholder="..."
           />
         </label>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -245,6 +245,8 @@ export default {
 
   .query-row {
     margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .query-item {
@@ -280,7 +282,7 @@ export default {
       background: transparent;
       border: none;
       font-weight: 400;
-      max-width: 140px;
+      max-width: 110px;
     }
   }
 

@@ -45,7 +45,7 @@
       <span class="post-stars icon icon-star-empty">{{ post.stars }}</span>
       <span :title="post.date" class="post-date icon icon-calendar-empty">{{ post.date | formatPostDate }}</span>
       <span class="post-author icon icon-child">
-        <a :href="'https://' + post.domain + '/users/' + post.author" rel="noopener">{{ post.author }}</a>
+        <a :href="'https://habr.com/users/' + post.author" rel="noopener">{{ post.author }}</a>
       </span>
       <span class="post-info-flags">{{ this.postFlags }}</span>
       <div class="post-controls">

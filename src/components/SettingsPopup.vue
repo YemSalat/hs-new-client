@@ -63,14 +63,6 @@
             <ul v-else class="popup-list">
               <li v-for="ignoredPost in settings.ignoredPosts" :key="ignoredPost.id">
                 <div class="popup-list-item-content">
-                  <span
-                    :title="ignoredPost.domain"
-                    :class="{
-                      'post-logo': true,
-                      'habrahabr': ignoredPost.domain === 'habr.com',
-                      'geektimes': ignoredPost.domain === 'geektimes.com'
-                    }"
-                  />
                   <a target="_blank" :title="ignoredPost.author" :href="postUrl(ignoredPost)" rel="noopener">{{ ignoredPost.title }}</a>
                 </div>
                 <span class="list-remove-ignored" @click="removeIgnoredPost(ignoredPost)">удалить</span>
@@ -86,7 +78,7 @@
                     <a
                       target="_blank"
                       :title="ignoredPost.author"
-                      :href="'https://' + ignoredPost.domain + '/users/' + ignoredPost.author"
+                      :href="'https://habr.com/users/' + ignoredPost.author"
                       rel="noopener"
                     >{{ ignoredPost.author }}</a>
                   </span> :
@@ -103,14 +95,6 @@
         <ul v-else class="popup-list">
           <li v-for="favoritePost in settings.favoritePosts" :key="favoritePost.id">
             <div class="popup-list-item-content">
-              <span
-                :title="favoritePost.domain"
-                :class="{
-                  'post-logo': true,
-                  'habrahabr': favoritePost.domain === 'habr.com',
-                  'geektimes': favoritePost.domain === 'geektimes.com'
-                }"
-              />
               <a target="_blank" :title="favoritePost.author" :href="postUrl(favoritePost)" rel="noopener">{{ favoritePost.title }}</a>
             </div>
             <span class="list-remove-ignored" @click="removeFavoritePost(favoritePost)">удалить</span>

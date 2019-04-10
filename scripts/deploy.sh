@@ -7,4 +7,4 @@ export HS_GA_CODE="UA-115355516-1"
 
 # Build and upload to remote
 npm run build && \
-rsync -avr ./dist/ root@habrascanner.com:/var/www/habrascanner/
+rsync -avr ./dist/ root@hbrscnr.club:/var/www/habrascanner/

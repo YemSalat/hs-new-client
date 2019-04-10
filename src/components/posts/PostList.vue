@@ -103,8 +103,6 @@ function elementIsInViewport (el) {
 
   .post-list {
     transition: 0.5s ease;
-    perspective: 1000px;
-    perspective-origin: center top;
 
     &._loading {
       opacity: 0.3;

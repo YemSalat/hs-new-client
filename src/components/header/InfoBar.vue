@@ -3,7 +3,7 @@
     <span v-if="errorText">{{ errorText }}</span>
     <span v-else class="query-info-text">
       {{ amount | postsAmount }}
-      <span class="info-mark">{{ domain }} {{ date }}</span>
+      <span class="info-mark">{{ date }}</span>
       <span v-if="keyword"> со словом </span><span v-if="keyword" class="info-mark _sp">{{ keyword }}</span>
       <span v-if="amount > 0">
         отсортированы по <span class="info-mark">{{ by }}</span>
@@ -37,10 +37,6 @@ const dictionary = {
     twodays: 'за два дня',
     week: 'за неделю',
     month: 'за месяц'
-  },
-  domain: {
-    'geektimes.com': 'с geektimes',
-    'habr.com': 'с хабра'
   }
 }
 
@@ -73,10 +69,6 @@ export default {
     },
     order () {
       return dictionary.order[this.$store.state.selectedFilters.order]
-    },
-    domain () {
-      if (this.$store.state.selectedFilters.domain.length !== 1) return ''
-      return dictionary.domain[this.$store.state.selectedFilters.domain]
     },
     keyword () {
       const keyword = this.$store.state.selectedFilters.keyword
