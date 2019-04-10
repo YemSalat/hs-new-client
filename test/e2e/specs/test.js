@@ -13,7 +13,7 @@ module.exports = {
       .waitForElementVisible('h1', 5000)
       .assert.containsText('h1', 'Habrascanner')
       .assert.containsText('.settings-link', 'настройки')
-      .assert.containsText('.e-query-info-content', '30 постов за два дня отсортированы по комментариям в порядке убывания')
+      .assert.containsText('.e-query-info-content', 'постов за два дня')
       .elements('css selector', '.query-item', function (result) {
         console.log('All 4 filters are present')
         browser.assert.equal(result.value.length, 4)
