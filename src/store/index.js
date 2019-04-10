@@ -5,6 +5,7 @@ import mutations from './mutations'
 import actions from './actions'
 
 const FLAG_REMOVED = 1
+const ALL_LANGUAGES = '3'
 
 Vue.use(Vuex)
 
@@ -29,7 +30,8 @@ export const store = new Vuex.Store({
       favoritePosts: {},
       saveFilters: false,
       showRemovedPosts: true,
-      darkTheme: false
+      darkTheme: false,
+      language: ALL_LANGUAGES
     },
     showIgnored: false,
     showSettingsPopup: false,

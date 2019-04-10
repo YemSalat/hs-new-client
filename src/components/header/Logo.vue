@@ -11,7 +11,9 @@
       }"
     >
     </span>
-    <span class="settings-link" @click="toggleSettigns()">настройки</span>
+    <div class="settings-link-container">
+      <span class="settings-link" @click="toggleSettigns()">настройки</span>
+    </div>
   </h1>
 </template>
 
@@ -27,9 +29,26 @@ export default {
 </script>
 
 <style lang="scss">
-  .settings-link {
+  .language-item {
+    opacity: 0.7;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.25s ease;
+
+    &._active, &:hover {
+      opacity: 1;
+    }
+
+    &>img {
+      width: 12px;
+    }
+  }
+
+  .settings-link-container {
     position: absolute;
     right: 0;
+  }
+  .settings-link {
     cursor: pointer;
     color: #555;
 

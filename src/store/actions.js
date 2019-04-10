@@ -87,6 +87,12 @@ export default {
       .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(state.selectedFilters[k])}`)
       .join('&')
 
+    const allowedLanguages = ['0', '1']
+    if (state.userSettings.language &&
+      allowedLanguages.indexOf(state.userSettings.language) > -1) {
+      params += `&language=${state.userSettings.language}`
+    }
+
     window.fetch(`/v1/posts?${params}`)
       .then(data => data.json().then(body => {
         commit('updatePosts', body.posts)
