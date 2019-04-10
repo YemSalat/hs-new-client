@@ -668,11 +668,6 @@ body {
   padding: 10px 0 30px;
 }
 
-@media screen and (max-width: 1024px) {
-  .main {
-    max-width: 980px;
-  }
-}
 @media screen and (max-width: 768px) {
   .main {
     padding: 20px;
@@ -713,5 +708,11 @@ body {
   }
   body, .post-content {
     font-weight: 300;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .main {
+    max-width: 980px;
   }
 }
