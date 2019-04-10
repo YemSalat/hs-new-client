@@ -294,6 +294,11 @@ export default {
       justify-content: space-between;
       margin-right: 0;
       margin-bottom: 10px;
+
+      &.query-item_date {
+        overflow: auto;
+        overflow-x: scroll;
+      }
     }
   }
 

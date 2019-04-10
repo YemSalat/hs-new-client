@@ -376,6 +376,10 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
+
+      @media screen and (max-width: 768px) {
+        top: auto;
+      }
   }
 
   .post-logo {
@@ -418,6 +422,12 @@ export default {
     &.icon::before {
       margin: 0;
       opacity: 0.7;
+    }
+
+    @media screen and (max-width: 768px) {
+      transform: none;
+      visibility: visible;
+      opacity: 1;
     }
   }
   .e-post._menu-open .post-ct,

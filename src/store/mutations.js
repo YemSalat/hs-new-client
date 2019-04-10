@@ -126,7 +126,6 @@ export default {
     state.showSettingsPopup = show
   },
   migrateData (state, minVersion) {
-    // debugger
     const minMigration = migrations.findIndex(m => m.version === minVersion)
     if (minMigration < 0) return
     const updateChain = migrations.slice(minMigration)

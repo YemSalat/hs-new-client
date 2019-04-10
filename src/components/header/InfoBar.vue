@@ -83,7 +83,6 @@ export default {
   },
   filters: {
     postsAmount (val) {
-      debugger
       const lastDigit = parseInt(('' + val).slice(-1), 10)
       const postsAmount = parseInt(val, 10)
       if (!postsAmount || lastDigit === 0) {

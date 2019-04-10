@@ -71,7 +71,6 @@ export default {
     const appVersion = getVersionValue(this.$el.dataset.version)
 
     const lastVersion = getVersionValue(localStorage.getItem(`${STORAGE_PREFIX}version`) || '0')
-    // debugger
     if (appVersion > lastVersion) {
       console.log('HS: App version was updated')
       this.$store.commit('migrateData', this.$el.dataset.version)
