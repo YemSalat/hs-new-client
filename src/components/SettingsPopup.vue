@@ -115,6 +115,9 @@
           Habrascanner v%HS_APP_VERSION% : %HS_GIT_HASH% : 1873<br />
           %HS_BUILD_DATE%
         </p>
+        <p>
+          Репозиторий проекта: <a href="https://github.com/YemSalat/hs-new-client" target="_blank">github</a>
+        </p>
       </div>
     </div>
   </div>
