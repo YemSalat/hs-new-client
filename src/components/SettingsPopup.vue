@@ -21,8 +21,8 @@
         О программе
       </li>
     </ul>
-    <div class="popup-content-wrapper __unselectable">
-      <div class="popup-content _active" data-tab="settings">
+    <div class="popup-content-wrapper">
+      <div class="popup-content __unselectable _active" data-tab="settings">
         <label>
           <span>Сохранять фильтры после закрытия</span>
           <input type="checkbox" v-model="saveFilters" />
@@ -46,7 +46,7 @@
           <a class="setting" @click.prevent="clearPostCache">Очистить кэш постов</a>
         </label>
       </div>
-      <div class="popup-content" data-tab="blocked">
+      <div class="popup-content __unselectable" data-tab="blocked">
         <div class="subtab-list">
           <ul>
             <li @click="openTab" data-tab="posts" class="_active">
@@ -90,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="popup-content" data-tab="favorites">
+      <div class="popup-content __unselectable" data-tab="favorites">
         <p v-if="!Object.keys(settings.favoritePosts).length">У вас нет закладок</p>
         <ul v-else class="popup-list">
           <li v-for="favoritePost in settings.favoritePosts" :key="favoritePost.id">

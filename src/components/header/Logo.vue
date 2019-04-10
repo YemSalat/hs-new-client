@@ -45,6 +45,7 @@ export default {
   .logo-title {
     margin-top: 0;
     vertical-align: middle;
+    position: relative;
 
     & > * {
       display: inline-block;

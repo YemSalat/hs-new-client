@@ -223,6 +223,7 @@ export default {
     font-family: 'Ubuntu Light', 'Ubuntu', sans-serif;
     font-size: 14px;
     vertical-align: middle;
+    max-width: 140px;
 
     [data-theme="dark"] & {
       color: #e3e6e6;
@@ -282,7 +283,7 @@ export default {
       background: transparent;
       border: none;
       font-weight: 400;
-      max-width: 110px;
+      max-width: 100px;
     }
   }
 

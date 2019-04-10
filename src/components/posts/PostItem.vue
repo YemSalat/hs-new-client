@@ -402,10 +402,12 @@ export default {
     opacity: 0;
     visibility: visible;
     transition: 0.5s ease;
-    transition-delay: 0.45s;
-    transform: translate3d(0, 8px, 0);
+    transition-delay: 0.5s;
+    transform: translateY(8px);
+    will-change: transform;
     font-size: 24px;
     cursor: pointer;
+    z-index: 30;
 
     &.icon::before {
       margin: 0;
