@@ -12,11 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/v1': {
-        target: 'http://localhost:3000',
+        target: 'http://hbrscnr.club',
         changeOrigin: true,
-        pathRewrite: {
-          '^/v1': ''
-        }
+        // pathRewrite: {
+        //   '^/v1': ''
+        // }
       }
     },
 
