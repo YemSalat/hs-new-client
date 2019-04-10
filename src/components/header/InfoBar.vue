@@ -48,7 +48,7 @@ export default {
     },
     filteredPosts () {
       return this.$store.state.posts.reduce((val, post) => {
-        if (post.ignored || post.ignoredAuthor) val++
+        if (post.ignored || post.ignoredAuthor || post) val++
         return val
       }, 0)
     },
@@ -102,6 +102,10 @@ export default {
 <style lang="scss">
   .query-info-bar {
     height: 24px;
+
+    @media screen and (max-width: 768px) {
+      height: auto;
+    }
   }
   .e-query-info-content {
     color: $light-gray;

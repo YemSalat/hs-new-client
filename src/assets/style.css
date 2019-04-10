@@ -704,4 +704,7 @@ body {
   .site-info p {
     font-size: 16px;
   }
+  h1.logo-title::before {
+    transform: translate(-41%, -47%);
+  }
 }

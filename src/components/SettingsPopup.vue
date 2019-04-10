@@ -469,5 +469,9 @@ export default {
       }
     }
   }
+
+  @media screen and (max-width: 768px) {
+    min-width: 80%;
+  }
 }
 </style>

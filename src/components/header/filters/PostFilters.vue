@@ -248,6 +248,10 @@ export default {
     margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
+
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap;
+    }
   }
 
   .query-item {
@@ -284,6 +288,12 @@ export default {
       border: none;
       font-weight: 400;
       max-width: 100px;
+    }
+
+    @media screen and (max-width: 768px) {
+      justify-content: space-between;
+      margin-right: 0;
+      margin-bottom: 10px;
     }
   }
 

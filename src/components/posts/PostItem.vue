@@ -316,6 +316,12 @@ export default {
         visibility: visible;
       }
     }
+
+    @media screen and (max-width: 768px) {
+      float: none;
+      width: 100%;
+      margin: 0 0 10px;
+    }
   }
 
   .post-info {
