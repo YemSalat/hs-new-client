@@ -1,6 +1,6 @@
 {
   "name": "habrascanner",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "description": "Habrascanner web client",
   "author": "Konstantin Levin <yem_salat@hotmail.com>",
   "private": true,
