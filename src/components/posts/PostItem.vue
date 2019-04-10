@@ -41,7 +41,7 @@
         <a :href="postUrl(post) + '#comments'" rel="noopener">{{ post.comments }}</a>
       </span>
       <span class="post-rating icon icon-thumbs-up">{{ post.rating }}</span>
-      <span class="post-views icon icon-eye">{{ post.views }}</span>
+      <span class="post-views icon icon-eye">{{ post.views | formatPostViews }}</span>
       <span class="post-stars icon icon-star-empty">{{ post.stars }}</span>
       <span :title="post.date" class="post-date icon icon-calendar-empty">{{ post.date | formatPostDate }}</span>
       <span class="post-author icon icon-child">
@@ -58,7 +58,6 @@
           <ul class="post-menu">
             <li v-if="!post.ignored" title="Ignore post" @click="ignorePost(post)">Заблокировать пост</li>
             <li v-else title="Unblock post" @click="unblockPost(post)">Разблокировать пост</li>
-
             <li v-if="!post.ignoredAuthor" title="Ignore author" @click="ignoreAuthor(post)">Заблокировать автора</li>
             <li v-else title="Unblock author" @click="unblockAuthor(post)">Разблокировать автора</li>
             <li v-if="!post.favorite" title="Save to favorites" @click="bookmarkPost(post)">Добавить в закладки</li>
@@ -167,7 +166,10 @@ export default {
       if (postDate.valueOf() > startOfDay) return `сегодня в ${hours}:${minutes}`
 
       return `${day} ${RU_MONTHS[monthIndex]} ${year}`
-      // return val.match(/[^T]+/)[0]
+    },
+    formatPostViews (val) {
+      if (val < 1000) return val.toString()
+      return `${(val / 1000).toFixed(1)}k`.replace('.0', '').replace('.', ',')
     }
   }
 }
