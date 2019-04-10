@@ -80,7 +80,6 @@ export default {
     params = params.filter(k => {
       if (k === 'from' && state.selectedFilters['date'] !== 'since') return false
       if (k === 'keyword' && state.selectedFilters.keyword.length < 2) return false
-      if (k === 'domain' && state.selectedFilters.domain.length !== 1) return false
       return true
     })
       .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(state.selectedFilters[k])}`)

@@ -113,7 +113,6 @@ export default {
     state.selectedFilters[update.filter] = update.val
     const hashFilters = JSON.parse(JSON.stringify(Object.assign({}, state.selectedFilters)))
 
-    if (hashFilters.domain.length !== 1) delete hashFilters.domain
     if (hashFilters.date !== 'since') delete hashFilters.from
     if (!hashFilters.keyword || hashFilters.keyword.length < 3) delete hashFilters.keyword
 
