@@ -23,6 +23,12 @@
     </ul>
     <div class="popup-content-wrapper">
       <div class="popup-content __unselectable _active" data-tab="settings">
+        <span class="label">
+          <span>Язык</span>
+          <label class="inner-label">русский <input type="radio" value="0" v-model="language" /></label>
+          <label class="inner-label">english <input type="radio" value="1" v-model="language" /></label>
+          <label class="inner-label">оба <input type="radio" value="3" v-model="language" /></label>
+        </span>
         <label class="label">
           <span>Сохранять фильтры после закрытия</span>
           <input type="checkbox" v-model="saveFilters" />
@@ -35,12 +41,6 @@
           <span>Dark theme</span>
           <input type="checkbox" v-model="darkTheme" />
         </label>
-        <span class="label">
-          <span>Язык</span>
-          <label class="inner-label">русский <input type="radio" value="0" v-model="language" /></label>
-          <label class="inner-label">english <input type="radio" value="1" v-model="language" /></label>
-          <label class="inner-label">оба <input type="radio" value="3" v-model="language" /></label>
-        </span>
         <label class="label">
           Текущие настройки:
           <a class="setting" :download="settingsDownloadFileName" :href="`data:text/plain;charset=utf-8,${encodeURIComponent(encodedSettings)}`">экспорт</a>
