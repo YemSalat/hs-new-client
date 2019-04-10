@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './actions'
 
+const FLAG_REMOVED = 1
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -45,6 +47,9 @@ export const store = new Vuex.Store({
             return state.showIgnored
           } else if (state.userSettings.favoritePosts[`${post.domain}_${post.id}`]) {
             post.favorite = true
+            return true
+          } else if (state.userSettings.showRemovedPosts === false && post.flag === FLAG_REMOVED) {
+            return false
           }
           return true
         })
