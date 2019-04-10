@@ -14,7 +14,9 @@ const MIN_DATE_FIELD_DIFF = 1000 * 60 * 60 * 24 * 2
 export default {
   setTheme ({ state }) {
     const theme = state.userSettings.darkTheme ? 'dark' : 'regular'
+    const contentColor = theme === 'dark' ? '#26292b' : '#f1f1f1'
     document.body.dataset.theme = theme
+    document.getElementById('metaThemeColor').content = contentColor
   },
   loadInitialData ({ state, commit, dispatch }) {
     // load user settings

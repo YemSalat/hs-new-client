@@ -1,5 +1,5 @@
 <template>
-  <span class="e-query-info-content">
+  <span class="e-query-info-content __unselectable">
     <span v-if="errorText">{{ errorText }}</span>
     <span v-else class="query-info-text">
       {{ amount | postsAmount }}
@@ -48,7 +48,7 @@ export default {
     },
     filteredPosts () {
       return this.$store.state.posts.reduce((val, post) => {
-        if (post.ignored || post.ignoredAuthor || post) val++
+        if (post.ignored || post.ignoredAuthor) val++
         return val
       }, 0)
     },
@@ -83,6 +83,7 @@ export default {
   },
   filters: {
     postsAmount (val) {
+      debugger
       const lastDigit = parseInt(('' + val).slice(-1), 10)
       const postsAmount = parseInt(val, 10)
       if (!postsAmount || lastDigit === 0) {
