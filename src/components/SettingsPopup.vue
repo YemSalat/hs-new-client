@@ -410,7 +410,7 @@ export default {
   }
 
   .popup-content-wrapper {
-    min-height: 240px;
+    min-height: 220px;
     position: relative;
   }
 
