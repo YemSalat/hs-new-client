@@ -1,4 +1,4 @@
-# hs-new-client
+# hs-new-client [![Build Status](https://travis-ci.com/YemSalat/hs-new-client.svg?branch=master)](https://travis-ci.com/YemSalat/hs-new-client)
 
 frontend for http://hbrscnr.club
 
