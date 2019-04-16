@@ -480,7 +480,6 @@ export default {
       display: inline-block;
       margin-right: 8px;
       font-size: 14px;
-      font-style: italic;
 
       &>input {
         margin-left: 4px;
