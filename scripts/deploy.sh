@@ -7,4 +7,7 @@ export HS_GA_CODE="UA-138087935-1"
 
 # Build and upload to remote
 npm run build && \
+echo 'Cleaning up old static files' && \
+ssh root@hbrscnr.club './cleanup_hs' && \
+echo 'Deploying' && \
 rsync -avr ./dist/ root@hbrscnr.club:/var/www/habrascanner/
