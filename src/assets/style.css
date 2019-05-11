@@ -344,7 +344,7 @@ textarea,
 .button {
   display: inline-block;
   font-size: 16px;
-  font-family: 'Ubuntu Light', 'Ubuntu', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Ubuntu", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: #333;
   background-color: #fcfcfc;
   border: 1px solid #d3d3d3;
@@ -413,7 +413,7 @@ input[type="submit"]:active,
 /* Start */
 
 body {
-  font-family: 'Ubuntu Light', 'Ubuntu', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   color: #333;
   background: #f1f1f1;
@@ -430,7 +430,7 @@ h1,
 h2,
 h3 {
   font-weight: normal;
-  font-weight: lighter;
+  font-weight: 300;
 }
 
 h1 {

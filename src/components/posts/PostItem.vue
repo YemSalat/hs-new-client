@@ -278,7 +278,7 @@ export default {
     margin-top: 5px;
     margin-bottom: 5px;
     line-height: 1.2;
-    font-weight: lighter;
+    font-weight: 300;
     @media screen and (max-width: 768px) {
       font-weight: 300;
     }

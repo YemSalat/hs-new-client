@@ -85,7 +85,7 @@ export default {
     postsAmount (val) {
       const lastDigit = parseInt(('' + val).slice(-1), 10)
       const postsAmount = parseInt(val, 10)
-      if (!postsAmount || lastDigit === 0 || postsAmount === 11) {
+      if (!postsAmount || lastDigit === 0 || (postsAmount > 10 && postsAmount < 20)) {
         return `${postsAmount} постов`
       } else if (lastDigit === 1) {
         return `${postsAmount} пост`
