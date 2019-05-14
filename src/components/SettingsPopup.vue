@@ -302,6 +302,10 @@ export default {
     opacity: 1;
     visibility: visible;
   }
+
+  [data-theme="dark"] & {
+    color: #f7f7f7;
+  }
 }
 
 .popup-list {
