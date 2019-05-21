@@ -59,9 +59,9 @@ export const store = new Vuex.Store({
     settings: state => state.userSettings,
     postUrl () {
       return post => {
-        const { id, flag, domain, url } = post
+        const { id, flag, url } = post
         if (flag === 1) {
-          return `https://sohabr.net/${domain === 'habr.com' ? 'habr' : 'gt'}/post/${id}`
+          return `https://itnan.ru/post.php?c=1&p=${id}`
         }
         return url
       }
