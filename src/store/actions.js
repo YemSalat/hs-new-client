@@ -11,6 +11,21 @@ const LOAD_POSTS_DELAY = 150
 const STORAGE_PREFIX = '$hs_'
 const MIN_DATE_FIELD_DIFF = 1000 * 60 * 60 * 24 * 2
 
+// Naive polyfill for AbortController
+const naiveAbortController = function AbortController () {
+  this.signal = undefined
+  this.abort = () => {
+    console.log('AbortController is not supported in your browser')
+  }
+}
+
+const AbortController = window.AbortController || naiveAbortController
+
+let fetchPostsController = new AbortController()
+let fetchPostsSignal = fetchPostsController.signal
+
+let runningRequest = null
+
 export default {
   setTheme ({ state }) {
     const theme = state.userSettings.darkTheme ? 'dark' : 'regular'
@@ -93,16 +108,27 @@ export default {
       params += `&language=${state.userSettings.language}`
     }
 
-    window.fetch(`/v1/posts?${params}`)
-      .then(data => data.json().then(body => {
-        commit('updatePosts', body.posts)
-        commit('setLoading', false)
-        commit('setShowIgnoredPosts', false)
-      }))
-      .catch(err => {
-        console.error(err)
-        commit('setError', 'что-то пошло не так 😢')
-      })
+    if (runningRequest) {
+      fetchPostsController.abort()
+      fetchPostsController = new AbortController()
+      fetchPostsSignal = fetchPostsController.signal
+    }
+
+    runningRequest = window.fetch(`/v1/posts?${params}`, {
+      signal: fetchPostsSignal
+    }).then(data => data.json().then(body => {
+      commit('updatePosts', body.posts)
+    })).catch(err => {
+      if (!(err instanceof window.DOMException)) {
+        throw err
+      }
+    }).then(() => {
+      commit('setLoading', false)
+      commit('setShowIgnoredPosts', false)
+    }).catch(err => {
+      console.error(err)
+      commit('setError', 'что-то пошло не так 😢')
+    })
   },
   scheduleLoadPosts ({ state, dispatch, commit }) {
     commit('setLoading', true)
