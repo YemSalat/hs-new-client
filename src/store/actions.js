@@ -119,7 +119,7 @@ export default {
     }).then(data => data.json().then(body => {
       commit('updatePosts', body.posts)
     })).catch(err => {
-      if (!(err instanceof window.DOMException)) {
+      if (!(err instanceof window.DOMException && err.code && err.code === 20)) {
         throw err
       }
     }).then(() => {

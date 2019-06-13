@@ -328,7 +328,7 @@ export default {
   }
 
   .post-info {
-    color: #7f8c8d;
+    color: #6c797a;
     position: relative;
     clear: both;
 
@@ -343,7 +343,7 @@ export default {
 
   .post-info-hubs {
     margin-bottom: 14px;
-    color: #7f8c8d;
+    color: #6c797a;
 
     [data-theme="dark"] & {
       color: #b0b7b7;
